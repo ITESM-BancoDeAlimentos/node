@@ -1,0 +1,17 @@
+<html>
+  <head>
+    <title>BAMTY - TRAFICO</title>
+  </head>
+  <body>
+    <h1>HOLA</h1>
+  </body>
+  <script>
+    var path = './';
+    var fs = require('fs');
+
+    fs.watch(path, function() {
+      if (location)
+        location.reload();
+    });
+  </script>
+</html>

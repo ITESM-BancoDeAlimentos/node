@@ -1,0 +1,8 @@
+{
+  "name": "BAMTY",
+  "main": "index.html",
+  "window": {
+    "toolbar": false,
+    "fullscreen": true
+  }
+}
