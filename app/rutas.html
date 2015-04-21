@@ -1,0 +1,116 @@
+<html>
+  <head>
+    <title>BAMTY - TRAFICO</title>
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="../css/materialize.min.css"  media="screen,projection"/>
+    <script>
+      window.onload = function() {        
+        var length = document.getElementById("calendario").rows.length;
+        for(i=1; i<length; i++) {
+          var fila = document.getElementById("calendario").rows[i].cells;
+          var dias = fila[2].textContent;
+          fila = document.getElementById("calendario").rows[i];
+          if(dias.search("Diaria") >=0) {
+            for(j=0; j<7; j++) {
+              x = fila.insertCell(-1);
+              x.style.backgroundColor = "#0277bd";
+            }
+          }
+          x = fila.insertCell(-1);
+          if(dias.search("Lu") >= 0) {
+             x.style.backgroundColor = "#0277bd";
+          }
+          x = fila.insertCell(-1);
+          if(dias.search("Mar") >= 0) {
+             x.style.backgroundColor = "#0277bd";
+          }
+          x = fila.insertCell(-1);
+          if(dias.search("Mi") >= 0) {
+             x.style.backgroundColor = "#0277bd";
+          }
+          x = fila.insertCell(-1);
+          if(dias.search("Jue") >= 0) {
+             x.style.backgroundColor = "#0277bd";
+          }
+          x = fila.insertCell(-1);
+          if(dias.search("Vi") >= 0) {
+             x.style.backgroundColor = "#0277bd";
+          }
+          x = fila.insertCell(-1);
+          x = fila.insertCell(-1);
+        }
+      
+      }
+    </script>
+  </head>
+  <body>
+    <div class="row">
+      <div>
+        <ul id="slide-out" class="side-nav fixed teal">
+          <div class="section">
+            <img class="responsive-img" src="../img/logo.png"/>
+          </div>
+          <a class="waves-effect waves-light btn black-text teal"><i class="mdi-action-dashboard left"></i>Dashboard</a>
+          <a class="waves-effect waves-light btn black-text teal"><i class="mdi-file-cloud left"></i>button</a>
+          <a class="waves-effect waves-light btn black-text teal"><i class="mdi-maps-directions left"></i>Rutas</a>    
+          <div class="section" style="margin-top: 300px;">
+            <div class="row">
+              <div class="col s6"><a class="waves-effect waves-light btn black-text grey">logout</a></div>
+              <div class="col s6"><a class="waves-effect waves-light btn black-text grey">exit</a></div>
+            </div>
+          </div>
+       </ul>
+       <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+      </div>
+      <div class="col s10 offset-s2">
+        <h2>Rutas disponibles</h2>
+        <table class="hoverable" id="calendario">
+        <thead>
+          <tr>
+              <th data-field="id">Ruta</th>
+              <th data-field="tienda">Tienda Sucursal</th>
+              <th data-field="frecuencia">Tipo de Visita</th>
+              <th data-field="lunes">Lunes</th>
+              <th data-field="martes">Martes</th>
+              <th data-field="miercoles">Miércoles</th>
+              <th data-field="jueves">Jueves</th>
+              <th data-field="viernes">Viernes</th>
+              <th data-field="sabado">Sábado</th>
+              <th data-field="domingo">Domingo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>R1</td>
+            <td>HEB Gonzalitos 2959</td>
+            <td>Lu,Jue</td>
+          </tr>
+          <tr>
+            <td>R1</td>
+            <td>HEB Chipinque 2950</td>
+            <td>Diaria</td>
+          </tr>
+          <tr>
+            <td>R1</td>
+            <td>HEB San Pedro  2975</td>
+            <td>Lu,Mi,Vi</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+    <script src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/materialize.min.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+      var path = './app/';
+      var fs = require('fs');
+
+      fs.watch(path, function() {
+        if (location)
+          location.reload();
+      });
+    </script>
+  </body>
+</html>
