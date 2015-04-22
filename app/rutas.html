@@ -54,19 +54,19 @@
               <td>R1</td>
               <td>HEB Gonzalitos 2959</td>
               <td>Lu,Jue</td>
-              <td><button class="btn waves-effect waves-light center"><i class="mdi-editor-mode-edit"></i></button></td>
+              <td><button class="btn waves-effect waves-light center" onclick="editar(this)"><i class="mdi-editor-mode-edit"></i></button></td>
             </tr>
             <tr>
               <td>R1</td>
               <td>HEB Chipinque 2950</td>
               <td>Diaria</td>
-              <td><button class="btn waves-effect waves-light center"><i class="mdi-editor-mode-edit"></i></button></td>
+              <td><button class="btn waves-effect waves-light center" onclick="editar(this)"><i class="mdi-editor-mode-edit"></i></button></td>
             </tr>
             <tr>
               <td>R1</td>
               <td>HEB San Pedro  2975</td>
               <td>Lu,Mi,Vi</td>
-              <td><button class="btn waves-effect waves-light center"><i class="mdi-editor-mode-edit"></i></button></td>
+              <td><button class="btn waves-effect waves-light center" onclick="editar(this)"><i class="mdi-editor-mode-edit"></i></button></td>
             </tr>
           </tbody>
         </table>
@@ -128,9 +128,14 @@
         <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
       </div>
     </div>
-    
-    <script>
+  <!-- Termino del modal -->
+  
+  <!-- modal form: edicion -->
+    <script type="text/javascript">
       window.onload = function() {
+        calendario();
+      }
+      function calendario() {
         var length = document.getElementById("calendario").rows.length;
         for(i=1; i<length; i++) {
           var fila = document.getElementById("calendario").rows[i].cells;
@@ -141,41 +146,180 @@
               x = fila.insertCell(-1);
               x.style.backgroundColor = "#0277bd";
             }
-          }
-          x = fila.insertCell(-1);
-          if(dias.search("Lu") >= 0) {
-             x.style.backgroundColor = "#0277bd";
-          }
-          x = fila.insertCell(-1);
-          if(dias.search("Mar") >= 0) {
-             x.style.backgroundColor = "#0277bd";
-          }
-          x = fila.insertCell(-1);
-          if(dias.search("Mi") >= 0) {
-             x.style.backgroundColor = "#0277bd";
-          }
-          x = fila.insertCell(-1);
-          if(dias.search("Jue") >= 0) {
-             x.style.backgroundColor = "#0277bd";
-          }
-          x = fila.insertCell(-1);
-          if(dias.search("Vi") >= 0) {
-             x.style.backgroundColor = "#0277bd";
-          }
-          x = fila.insertCell(-1);
-          if(dias.search("Sab") >= 0) {
-             x.style.backgroundColor = "#0277bd";
-          }
-          x = fila.insertCell(-1);
-          if(dias.search("Dom") >= 0) {
-             x.style.backgroundColor = "#0277bd";
+          } else {
+            x = fila.insertCell(-1);
+            if(dias.search("Lu") >= 0) {
+               x.style.backgroundColor = "#0277bd";
+            }
+            x = fila.insertCell(-1);
+            if(dias.search("Mar") >= 0) {
+               x.style.backgroundColor = "#0277bd";
+            }
+            x = fila.insertCell(-1);
+            if(dias.search("Mi") >= 0) {
+               x.style.backgroundColor = "#0277bd";
+            }
+            x = fila.insertCell(-1);
+            if(dias.search("Jue") >= 0) {
+               x.style.backgroundColor = "#0277bd";
+            }
+            x = fila.insertCell(-1);
+            if(dias.search("Vi") >= 0) {
+               x.style.backgroundColor = "#0277bd";
+            }
+            x = fila.insertCell(-1);
+            if(dias.search("Sab") >= 0) {
+               x.style.backgroundColor = "#0277bd";
+            }
+            x = fila.insertCell(-1);
+            if(dias.search("Dom") >= 0) {
+               x.style.backgroundColor = "#0277bd";
+            }
           }
         }
-          
         $(document).ready(function() {
           $('select').material_select();
           $('.modal-trigger').leanModal();
-        });
+        });      
+      }
+      
+      function refreshCalendario() {
+         var length = document.getElementById("calendario").rows.length;
+        for(i=1; i<length; i++) {
+          var fila = document.getElementById("calendario").rows[i].cells;
+          var dias = fila[2].textContent;
+          if(dias.search("Diaria") >=0) {
+            for(j=4; j<11; j++) {
+              fila.item(j). style.backgroundColor ="#0277bd";
+            }
+          } else {
+            if(dias.search("Lu") >= 0) {
+               fila.item(4).style.backgroundColor ="#0277bd";
+            } else {
+              fila.item(4).style.backgroundColor ="#ffffff";
+            }
+            if(dias.search("Mar") >= 0) {
+               fila.item(5).style.backgroundColor ="#0277bd";
+            } else {
+              fila.item(5).style.backgroundColor ="#ffffff";
+            }
+            if(dias.search("Mi") >= 0) {
+               fila.item(6).style.backgroundColor ="#0277bd";
+            } else {
+              fila.item(6).style.backgroundColor ="#ffffff";
+            }
+            if(dias.search("Jue") >= 0) {
+               fila.item(7).style.backgroundColor ="#0277bd";
+            } else {
+              fila.item(7).style.backgroundColor ="#ffffff";
+            }
+            if(dias.search("Vi") >= 0) {
+               fila.item(8).style.backgroundColor ="#0277bd";
+            } else {
+              fila.item(8).style.backgroundColor ="#ffffff";
+            }
+            if(dias.search("Sab") >= 0) {
+               fila.item(9).style.backgroundColor ="#0277bd";
+            } else {
+              fila.item(9).style.backgroundColor ="#ffffff";
+            }
+            if(dias.search("Dom") >= 0) {
+               fila.item(10).style.backgroundColor ="#0277bd";
+            } else {
+              fila.item(10).style.backgroundColor ="#ffffff";
+            }
+          }
+        }
+      }
+      function trim(value) {
+        var temp = value;
+        var obj = /^(\s*)([\W\w]*)(\b\s*$)/;
+        if (obj.test(temp)) { temp = temp.replace(obj, '$2');}
+        var obj = /  /g;
+        while (temp.match(obj)) { temp = temp.replace(obj, " ");}
+        return temp;
+      }
+      
+      function getTextWidth(texto) {
+        var ancho = 150;
+
+        if(trim(texto) == "") {
+            return ancho;
+        }
+        
+        var span = document.createElement("span");
+        span.style.visibility = "hidden";
+        span.style.position = "absolute";
+        span.appendChild(document.createTextNode(texto));
+        document.getElementsByTagName("body")[0].appendChild(span);
+        ancho = span.offsetWidth;
+        document.getElementsByTagName("body")[0].removeChild(span);
+        span = null;
+
+        return ancho;
+      }
+
+      
+      function editar(obj) {
+        var ruta = null;
+        var tienda = null;
+        var frecuencia = null;
+        var fila = obj.parentNode.parentNode;
+        var campoRuta = fila.firstElementChild;
+        var campoTienda = fila.children[1];
+        var campoFrecuencia = fila.children[2];
+        
+        ruta = document.createElement("input");
+        if(campoRuta.innerText) {
+          ruta.value = campoRuta.innerText;
+        } else {
+          ruta.value = campoRuta.textContent;
+        }
+        ruta.style.width = getTextWidth(ruta.value) + 30 + "px";
+        campoRuta.replaceChild(ruta, campoRuta.firstChild);
+        
+        
+        tienda = document.createElement("input");
+        if(campoTienda.innerText) {
+          tienda.value = campoTienda.innerText;
+        } else {
+          tienda.value = campoTienda.textContent;
+        }
+        tienda.style.width = getTextWidth(tienda.value) + 30 + "px";
+        campoTienda.replaceChild(tienda, campoTienda.firstChild);
+        
+        
+        frecuencia = document.createElement("input");
+        if(campoFrecuencia.innerText) {
+          frecuencia.value = campoFrecuencia.innerText;
+        } else {
+          frecuencia.value = campoFrecuencia.textContent;
+        }
+        frecuencia.style.width = getTextWidth(frecuencia.value) + 30 + "px";
+        campoFrecuencia.replaceChild(frecuencia, campoFrecuencia.firstChild);
+        
+        obj.className = "btn waves-effect waves-light center green";
+        obj.firstChild.className = "mdi-content-save";
+        obj.onclick = function salir() {
+          guardarCambios(obj, ruta.value, tienda.value, frecuencia.value);
+          delete ruta;
+          delete tienda;
+          delete frecuencia;
+          refreshCalendario();
+        }
+      }
+      
+      function guardarCambios(obj, valorRuta, valorTienda, valorFrecuencia) {
+        var fila = obj.parentNode.parentNode;
+        var ruta = fila.children[0];
+        var tienda = fila.children[1];
+        var freq = fila.children[2];
+        ruta.replaceChild(document.createTextNode(valorRuta), ruta.firstChild);
+        tienda.replaceChild(document.createTextNode(valorTienda), tienda.firstChild);
+        freq.replaceChild(document.createTextNode(valorFrecuencia), freq.firstChild);
+        obj.className = "btn waves-effect waves-light center";
+        obj.firstChild.className = "mdi-editor-mode-edit";
+        obj.onclick=function() {editar(this)};
       }
     </script>
     <script src="../js/jquery.min.js"></script>
