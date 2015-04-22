@@ -4,45 +4,6 @@
     <!--Import materialize.css-->
     <link type="text/css" rel="stylesheet" href="../css/materialize.min.css"  media="screen,projection"/>
     <meta charset="UTF-8"></meta>
-    <script>
-      window.onload = function() {
-        var length = document.getElementById("calendario").rows.length;
-        for(i=1; i<length; i++) {
-          var fila = document.getElementById("calendario").rows[i].cells;
-          var dias = fila[2].textContent;
-          fila = document.getElementById("calendario").rows[i];
-          if(dias.search("Diaria") >=0) {
-            for(j=0; j<7; j++) {
-              x = fila.insertCell(-1);
-              x.style.backgroundColor = "#0277bd";
-            }
-          }
-          x = fila.insertCell(-1);
-          if(dias.search("Lu") >= 0) {
-             x.style.backgroundColor = "#0277bd";
-          }
-          x = fila.insertCell(-1);
-          if(dias.search("Mar") >= 0) {
-             x.style.backgroundColor = "#0277bd";
-          }
-          x = fila.insertCell(-1);
-          if(dias.search("Mi") >= 0) {
-             x.style.backgroundColor = "#0277bd";
-          }
-          x = fila.insertCell(-1);
-          if(dias.search("Jue") >= 0) {
-             x.style.backgroundColor = "#0277bd";
-          }
-          x = fila.insertCell(-1);
-          if(dias.search("Vi") >= 0) {
-             x.style.backgroundColor = "#0277bd";
-          }
-          x = fila.insertCell(-1);
-          x = fila.insertCell(-1);
-        }
-
-      }
-    </script>
   </head>
   <body>
     <div class="row">
@@ -68,7 +29,7 @@
 
       <div class="col s10 offset-s2">
         <nav>
-          <div class="nav-wrapper">
+          <div class="nav-wrapper teal">
             <a href="#" class="brand-logo center">Rutas disponibles</a>
           </div>
         </nav>
@@ -111,14 +72,53 @@
       </table>
 
       <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-        <a class="btn-floating btn-large red tooltipped" data-position="left" data-delay="50" data-tooltip="Agregar ruta">
+        <a class="btn-floating btn-large teal tooltipped" data-position="left" data-delay="50" data-tooltip="Agregar ruta">
           <i class="large mdi-content-add"></i>
         </a>
       </div>
       </div>
 
     </div>
+    
+    <script>
+      window.onload = function() {
+        var length = document.getElementById("calendario").rows.length;
+        for(i=1; i<length; i++) {
+          var fila = document.getElementById("calendario").rows[i].cells;
+          var dias = fila[2].textContent;
+          fila = document.getElementById("calendario").rows[i];
+          if(dias.search("Diaria") >=0) {
+            for(j=0; j<7; j++) {
+              x = fila.insertCell(-1);
+              x.style.backgroundColor = "#0277bd";
+            }
+          }
+          x = fila.insertCell(-1);
+          if(dias.search("Lu") >= 0) {
+             x.style.backgroundColor = "#0277bd";
+          }
+          x = fila.insertCell(-1);
+          if(dias.search("Mar") >= 0) {
+             x.style.backgroundColor = "#0277bd";
+          }
+          x = fila.insertCell(-1);
+          if(dias.search("Mi") >= 0) {
+             x.style.backgroundColor = "#0277bd";
+          }
+          x = fila.insertCell(-1);
+          if(dias.search("Jue") >= 0) {
+             x.style.backgroundColor = "#0277bd";
+          }
+          x = fila.insertCell(-1);
+          if(dias.search("Vi") >= 0) {
+             x.style.backgroundColor = "#0277bd";
+          }
+          x = fila.insertCell(-1);
+          x = fila.insertCell(-1);
+        }
 
+      }
+    </script>
     <script src="../js/jquery.min.js"></script>
     <script type="text/javascript" src="../js/materialize.min.js"></script>
     <script src="../js/main.js"></script>
