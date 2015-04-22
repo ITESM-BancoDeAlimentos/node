@@ -97,17 +97,28 @@
             </div>
           </div>
           <div class="row">
-            <div class="input-field col s6">
-              <select>
-                <option value="" disabled selected>Cuando se recorre la ruta</option>
-                <option value="Lu">Lu</option>
-                <option value="Mar">Mar</option>
-                <option value="Mi">Mi</option>
-                <option value="Jue">Jue</option>
-                <option value="Vi">Vi</option>
-                <option value="Lu,Ju">Lu,Ju</option>
-              </select>
-              <label>Tipo de Visita</label>
+            <div class="input-field col s12">
+              <p class="tooltipped" data-tooltip="Escoger todos los días que se visitara la sucursal" data-positon="left" data-delay="50">Tipo de Visita</p>
+              <input type="checkbox" class="filled-in" id="lunes" name="frecuencia" value ="Lu"/>
+              <label for="lunes">Lunes</label>
+              <br/>
+              <input type="checkbox" class="filled-in" id="martes" name="frecuencia" value ="Mar"/>
+              <label for="martes">Martes</label>
+              <br/>
+              <input type="checkbox" class="filled-in" id="miercoles" name="frecuencia" value ="Mi"/>
+              <label for="miercoles">Miércoles</label>
+              <br/>
+              <input type="checkbox" class="filled-in" id="jueves" name="frecuencia" value ="Jue"/>
+              <label for="jueves">Jueves</label>
+              <br/>
+              <input type="checkbox" class="filled-in" id="viernes" name="frecuencia" value ="Vi"/>
+              <label for="viernes">Viernes</label>
+              <br/>
+              <input type="checkbox" class="filled-in" id="sabado" name="frecuencia" value ="Sab"/>
+              <label for="sabado">Sábado</label>
+              <br/>
+              <input type="checkbox" class="filled-in" id="domingo" name="frecuencia" value ="Dom"/>
+              <label for="domingo">Domingo</label>
             </div>
           </div>
         </form>
@@ -152,7 +163,13 @@
              x.style.backgroundColor = "#0277bd";
           }
           x = fila.insertCell(-1);
+          if(dias.search("Sab") >= 0) {
+             x.style.backgroundColor = "#0277bd";
+          }
           x = fila.insertCell(-1);
+          if(dias.search("Dom") >= 0) {
+             x.style.backgroundColor = "#0277bd";
+          }
         }
           
         $(document).ready(function() {
