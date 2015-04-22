@@ -34,50 +34,88 @@
           </div>
         </nav>
         <table class="hoverable" id="calendario">
-        <thead>
-          <tr>
-              <th data-field="id">Ruta</th>
-              <th data-field="tienda">Tienda Sucursal</th>
-              <th data-field="frecuencia">Tipo de Visita</th>
-              <th></th>
-              <th data-field="lunes">Lunes</th>
-              <th data-field="martes">Martes</th>
-              <th data-field="miercoles">Miércoles</th>
-              <th data-field="jueves">Jueves</th>
-              <th data-field="viernes">Viernes</th>
-              <th data-field="sabado">Sábado</th>
-              <th data-field="domingo">Domingo</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>R1</td>
-            <td>HEB Gonzalitos 2959</td>
-            <td>Lu,Jue</td>
-            <td><button class="btn waves-effect waves-light center"><i class="mdi-editor-mode-edit"></i></button></td>
-          </tr>
-          <tr>
-            <td>R1</td>
-            <td>HEB Chipinque 2950</td>
-            <td>Diaria</td>
-            <td><button class="btn waves-effect waves-light center"><i class="mdi-editor-mode-edit"></i></button></td>
-          </tr>
-          <tr>
-            <td>R1</td>
-            <td>HEB San Pedro  2975</td>
-            <td>Lu,Mi,Vi</td>
-            <td><button class="btn waves-effect waves-light center"><i class="mdi-editor-mode-edit"></i></button></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-        <a class="btn-floating btn-large teal tooltipped" data-position="left" data-delay="50" data-tooltip="Agregar ruta">
-          <i class="large mdi-content-add"></i>
-        </a>
+          <thead>
+            <tr>
+                <th data-field="id">Ruta</th>
+                <th data-field="tienda">Tienda Sucursal</th>
+                <th data-field="frecuencia">Tipo de Visita</th>
+                <th></th>
+                <th data-field="lunes">Lunes</th>
+                <th data-field="martes">Martes</th>
+                <th data-field="miercoles">Miércoles</th>
+                <th data-field="jueves">Jueves</th>
+                <th data-field="viernes">Viernes</th>
+                <th data-field="sabado">Sábado</th>
+                <th data-field="domingo">Domingo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>R1</td>
+              <td>HEB Gonzalitos 2959</td>
+              <td>Lu,Jue</td>
+              <td><button class="btn waves-effect waves-light center"><i class="mdi-editor-mode-edit"></i></button></td>
+            </tr>
+            <tr>
+              <td>R1</td>
+              <td>HEB Chipinque 2950</td>
+              <td>Diaria</td>
+              <td><button class="btn waves-effect waves-light center"><i class="mdi-editor-mode-edit"></i></button></td>
+            </tr>
+            <tr>
+              <td>R1</td>
+              <td>HEB San Pedro  2975</td>
+              <td>Lu,Mi,Vi</td>
+              <td><button class="btn waves-effect waves-light center"><i class="mdi-editor-mode-edit"></i></button></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+          <a href="#modal1" class="btn-floating btn-large teal tooltipped modal-trigger" data-position="left" data-delay="50" data-tooltip="Agregar ruta">
+            <i class="large mdi-content-add"></i></a>
+        </div>
       </div>
+    </div>
+    
+  <!-- modal form: alta rutas -->
+    <div class="modal" id="modal1">
+      <div class="modal-content">
+        <form class="col s12">
+          <div class="row">
+            <div class="input-field col s6">
+              <select>
+                <option value="" disabled selected>Escoja una ruta</option>
+                <option value="R1">R1</option>
+                <option value="R2">R2</option>
+                <option value="R3">R3</option>
+              </select>
+              <label>Ruta</label>
+            </div>
+            <div class="input-field col s6">
+              <input id="tienda" type="text" class="validate">
+              <label for="tienda">Tienda Sucursal</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s6">
+              <select>
+                <option value="" disabled selected>Cuando se recorre la ruta</option>
+                <option value="Lu">Lu</option>
+                <option value="Mar">Mar</option>
+                <option value="Mi">Mi</option>
+                <option value="Jue">Jue</option>
+                <option value="Vi">Vi</option>
+                <option value="Lu,Ju">Lu,Ju</option>
+              </select>
+              <label>Tipo de Visita</label>
+            </div>
+          </div>
+        </form>
       </div>
-
+      <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Submit</a>
+        <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
+      </div>
     </div>
     
     <script>
@@ -116,7 +154,11 @@
           x = fila.insertCell(-1);
           x = fila.insertCell(-1);
         }
-
+          
+        $(document).ready(function() {
+          $('select').material_select();
+          $('.modal-trigger').leanModal();
+        });
       }
     </script>
     <script src="../js/jquery.min.js"></script>
