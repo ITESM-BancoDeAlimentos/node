@@ -21,7 +21,7 @@
           <div class="section" style="margin-top: 300px;">
             <div class="row">
               <div class="col s6"><a href="../index.html" class="waves-effect waves-light btn black-text grey">logout</a></div>
-              <div class="col s6"><a id="close" class="waves-effect waves-light btn black-text grey">exit</a></div>
+              <div class="col s6"><a class="waves-effect waves-light btn black-text grey">exit</a></div>
             </div>
           </div>
        </ul>
@@ -31,51 +31,16 @@
       <div class="col s10 offset-s2">
         <nav>
           <div class="nav-wrapper">
-            <a href="#" class="brand-logo center">Vehículos</a>
+            <a href="#" class="brand-logo center">Control - Rutas</a>
           </div>
         </nav>
-        <table class="hoverable" id="vehiculos">
-              <thead>
-              <tr>
-                  <th data-field="nombre">Nombre</th>
-                  <th data-field="marca">Marca</th>
-                  <th data-field="modelo">Modelo</th>
-                  <th data-field="Descripcion">Descripcion</th>
-                  <th data-field="placas">Placas</th>
-                  <th data-field="clasificacion">Clasificacion</th>
-                  <th data-field="donante">Donante</th>
-                  <th data-field="combustible">Combustible</th>
-                  <th data-field="noTarjeta">Número de Tarjeta</th>
-                  <th data-field="noHolograma">Número de Holograma</th>
-                  <th data-field="serie">Número de Serie</th>
-                  <th data-field="funcionando">Estatus</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr>
-                  <td>Carro1?</td>
-                  <td>Ford</td>
-                  <td>2008</td>
-                  <td>Ranger</td>
-                  <td>RE 78-067</td>
-                  <td>Carga Ligera</td>
-                  <td>Caritas</td>
-                  <td>Magna</td>
-                  <td>126002</td>
-                  <td>12120002</td>
-                  <td>8AFDT50D986151039</td>
-                  <td>Si</td>
-                  <td><button class="btn waves-effect waves-light center"><i class="mdi-editor-mode-edit"></i></button></td>
-              </tr>
-              </tbody>
-      </table>
           <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
               <a href="#modal1" class="btn-floating btn-large teal tooltipped modal-trigger" data-position="left" data-delay="50" data-tooltip="Agregar vehiculo">
                   <i class="large mdi-content-add"></i></a>
           </div>
       </div>
     </div>
-
+    
     <!-- modal form: alta rutas -->
     <div class="modal" id="modal1">
       <div class="modal-content">
@@ -118,7 +83,7 @@
                 <option value="diesel">Diesel</option>
               </select>
               <label>Ruta</label>
-            </div>
+            </div> 
             <div class="input-field col s6">
               <input id="numtarjeta" type="text" class="validate">
               <label for="numtarjeta">Número de Tarjeta</label>
