@@ -57,7 +57,7 @@
                   <td>Trafico</td>
                   <td>03/09/1974</td>
                   <td>10/2/2007</td>
-                  <td><button class="btn waves-effect waves-light center"><i class="mdi-editor-mode-edit"></i></button></td>
+                  <td><button class="btn waves-effect waves-light center" onclick="editar(this)"><i class="mdi-editor-mode-edit"></i></button></td>
               </tr>
               </tbody>
           </table>
@@ -200,33 +200,39 @@
         campoFechaN.replaceChild(fechaNacimiento, campoFechaN.firstChild);
         
         fechaContratacion = document.createElement("input");
-        if(campoFechaN.innerText) {
-          fechaContratacion.value = campoFechaN.innerText;
+        if(campoFechaC.innerText) {
+          fechaContratacion.value = campoFechaC.innerText;
         } else {
-          fechaContratacion.value = campoFechaN.textContent;
+          fechaContratacion.value = campoFechaC.textContent;
         }
         fechaContratacion.style.width = getTextWidth(fechaContratacion.value) + 30 + "px";
-        campoFechaN.replaceChild(fechaContratacion, campoFechaN.firstChild);
+        campoFechaC.replaceChild(fechaContratacion, campoFechaC.firstChild);
         
         obj.className = "btn waves-effect waves-light center green";
         obj.firstChild.className = "mdi-content-save";
         obj.onclick = function salir() {
-          guardarCambios(obj, nombre.value, tienda.value, frecuencia.value);
+          guardarCambios(obj, nombre.value, direccion.value, telefono.value, fechaNacimiento.value, fechaContratacion.value);
           delete nombre;
-          delete tienda;
-          delete frecuencia;
-          refreshCalendario();
+          delete direccion;
+          delete telefono;
+          delete fechaNacimiento;
+          delete fechaContratacion;
         }
       }
       
-      function guardarCambios(obj, valorRuta, valorTienda, valorFrecuencia) {
+      function guardarCambios(obj, valorNombre, valorDir, valorTel, valorFechaN, valorFechaC) {
         var fila = obj.parentNode.parentNode;
-        var ruta = fila.children[0];
-        var tienda = fila.children[1];
-        var freq = fila.children[2];
-        ruta.replaceChild(document.createTextNode(valorRuta), ruta.firstChild);
-        tienda.replaceChild(document.createTextNode(valorTienda), tienda.firstChild);
-        freq.replaceChild(document.createTextNode(valorFrecuencia), freq.firstChild);
+        var nombre = fila.children[0];
+        var direccion = fila.children[1];
+        var telefono = fila.children[2];
+        var fechaNacimiento = fila.children[4];
+        var fechaContratacion = fila.children[5];
+        nombre.replaceChild(document.createTextNode(valorNombre), nombre.firstChild);
+        direccion.replaceChild(document.createTextNode(valorDir), direccion.firstChild);
+        telefono.replaceChild(document.createTextNode(valorTel), telefono.firstChild);
+        fechaNacimiento.replaceChild(document.createTextNode(valorFechaN), fechaNacimiento.firstChild);
+        fechaContratacion.replaceChild(document.createTextNode(valorFechaC), fechaContratacion.firstChild);
+
         obj.className = "btn waves-effect waves-light center";
         obj.firstChild.className = "mdi-editor-mode-edit";
         obj.onclick=function() {editar(this)};
