@@ -25,7 +25,7 @@
           <div class="section" style="margin-top: 300px;">
             <div class="row">
               <div class="col s6"><a href="../index.html" class="waves-effect waves-light btn black-text grey">logout</a></div>
-              <div class="col s6"><a class="waves-effect waves-light btn black-text grey">exit</a></div>
+              <div class="col s6"><a id="close" class="waves-effect waves-light btn black-text grey">exit</a></div>
             </div>
           </div>
        </ul>
@@ -117,7 +117,7 @@
           selectYears: 15 // Creates a dropdown of 15 years to control year
         });
       }
-      
+
       <!-- Edicion de registro -->
       function trim(value) {
         var temp = value;
@@ -127,14 +127,14 @@
         while (temp.match(obj)) { temp = temp.replace(obj, " ");}
         return temp;
       }
-      
+
       function getTextWidth(texto) {
         var ancho = 150;
 
         if(trim(texto) == "") {
             return ancho;
         }
-        
+
         var span = document.createElement("span");
         span.style.visibility = "hidden";
         span.style.position = "absolute";
@@ -147,7 +147,7 @@
         return ancho;
       }
 
-      
+
       function editar(obj) {
         var nombre = null;
         var direccion = null;
@@ -160,7 +160,7 @@
         var campoTelefono = fila.children[2];
         var campoFechaN = fila.children[4];
         var campoFechaC = fila.children[5];
-        
+
         nombre = document.createElement("input");
         if(campoNombre.innerText) {
           nombre.value = campoNombre.innerText;
@@ -169,8 +169,8 @@
         }
         nombre.style.width = getTextWidth(nombre.value) + 30 + "px";
         campoNombre.replaceChild(nombre, campoNombre.firstChild);
-        
-        
+
+
         direccion = document.createElement("input");
         if(campoDireccion.innerText) {
           direccion.value = campoDireccion.innerText;
@@ -179,8 +179,8 @@
         }
         direccion.style.width = getTextWidth(direccion.value) + 30 + "px";
         campoDireccion.replaceChild(direccion, campoDireccion.firstChild);
-        
-        
+
+
         telefono = document.createElement("input");
         if(campoTelefono.innerText) {
           telefono.value = campoTelefono.innerText;
@@ -189,7 +189,7 @@
         }
         telefono.style.width = getTextWidth(telefono.value) + 30 + "px";
         campoTelefono.replaceChild(telefono, campoTelefono.firstChild);
-        
+
         fechaNacimiento = document.createElement("input");
         if(campoFechaN.innerText) {
           fechaNacimiento.value = campoFechaN.innerText;
@@ -198,7 +198,7 @@
         }
         fechaNacimiento.style.width = getTextWidth(fechaNacimiento.value) + 30 + "px";
         campoFechaN.replaceChild(fechaNacimiento, campoFechaN.firstChild);
-        
+
         fechaContratacion = document.createElement("input");
         if(campoFechaN.innerText) {
           fechaContratacion.value = campoFechaN.innerText;
@@ -207,7 +207,7 @@
         }
         fechaContratacion.style.width = getTextWidth(fechaContratacion.value) + 30 + "px";
         campoFechaN.replaceChild(fechaContratacion, campoFechaN.firstChild);
-        
+
         obj.className = "btn waves-effect waves-light center green";
         obj.firstChild.className = "mdi-content-save";
         obj.onclick = function salir() {
@@ -218,7 +218,7 @@
           refreshCalendario();
         }
       }
-      
+
       function guardarCambios(obj, valorRuta, valorTienda, valorFrecuencia) {
         var fila = obj.parentNode.parentNode;
         var ruta = fila.children[0];
@@ -231,7 +231,7 @@
         obj.firstChild.className = "mdi-editor-mode-edit";
         obj.onclick=function() {editar(this)};
       }
-      
+
     </script>
     <script src="../js/jquery.min.js"></script>
     <script type="text/javascript" src="../js/materialize.min.js"></script>

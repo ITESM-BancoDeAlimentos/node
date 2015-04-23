@@ -20,7 +20,7 @@
           <div class="section" style="margin-top: 300px;">
             <div class="row">
               <div class="col s6"><a href="../index.html" class="waves-effect waves-light btn black-text grey">logout</a></div>
-              <div class="col s6"><a class="waves-effect waves-light btn black-text grey">exit</a></div>
+              <div class="col s6"><a id="close" class="waves-effect waves-light btn black-text grey">exit</a></div>
             </div>
           </div>
        </ul>
@@ -76,7 +76,7 @@
         </div>
       </div>
     </div>
-    
+
   <!-- modal form: alta rutas -->
     <div class="modal" id="modal1">
       <div class="modal-content">
@@ -130,7 +130,7 @@
       </div>
     </div>
   <!-- Termino del modal -->
-  
+
   <!-- modal form: edicion -->
     <script type="text/javascript">
       window.onload = function() {
@@ -181,9 +181,9 @@
         $(document).ready(function() {
           $('select').material_select();
           $('.modal-trigger').leanModal();
-        });      
+        });
       }
-      
+
       function refreshCalendario() {
          var length = document.getElementById("calendario").rows.length;
         for(i=1; i<length; i++) {
@@ -232,7 +232,7 @@
           }
         }
       }
-      
+
       <!-- Edicion de registro -->
       function trim(value) {
         var temp = value;
@@ -242,14 +242,14 @@
         while (temp.match(obj)) { temp = temp.replace(obj, " ");}
         return temp;
       }
-      
+
       function getTextWidth(texto) {
         var ancho = 150;
 
         if(trim(texto) == "") {
             return ancho;
         }
-        
+
         var span = document.createElement("span");
         span.style.visibility = "hidden";
         span.style.position = "absolute";
@@ -262,7 +262,7 @@
         return ancho;
       }
 
-      
+
       function editar(obj) {
         var ruta = null;
         var tienda = null;
@@ -271,7 +271,7 @@
         var campoRuta = fila.firstElementChild;
         var campoTienda = fila.children[1];
         var campoFrecuencia = fila.children[2];
-        
+
         ruta = document.createElement("input");
         if(campoRuta.innerText) {
           ruta.value = campoRuta.innerText;
@@ -280,8 +280,8 @@
         }
         ruta.style.width = getTextWidth(ruta.value) + 30 + "px";
         campoRuta.replaceChild(ruta, campoRuta.firstChild);
-        
-        
+
+
         tienda = document.createElement("input");
         if(campoTienda.innerText) {
           tienda.value = campoTienda.innerText;
@@ -290,8 +290,8 @@
         }
         tienda.style.width = getTextWidth(tienda.value) + 30 + "px";
         campoTienda.replaceChild(tienda, campoTienda.firstChild);
-        
-        
+
+
         frecuencia = document.createElement("input");
         if(campoFrecuencia.innerText) {
           frecuencia.value = campoFrecuencia.innerText;
@@ -300,7 +300,7 @@
         }
         frecuencia.style.width = getTextWidth(frecuencia.value) + 30 + "px";
         campoFrecuencia.replaceChild(frecuencia, campoFrecuencia.firstChild);
-        
+
         obj.className = "btn waves-effect waves-light center green";
         obj.firstChild.className = "mdi-content-save";
         obj.onclick = function salir() {
@@ -311,7 +311,7 @@
           refreshCalendario();
         }
       }
-      
+
       function guardarCambios(obj, valorRuta, valorTienda, valorFrecuencia) {
         var fila = obj.parentNode.parentNode;
         var ruta = fila.children[0];
