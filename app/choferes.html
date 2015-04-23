@@ -98,6 +98,7 @@
     <!-- Termino del modal -->
 
     <script>
+        var db;
       window.onload = function() {
         $(document).ready(function() {
           $('select').material_select();
@@ -110,9 +111,9 @@
           selectYears: 15 // Creates a dropdown of 15 years to control year
         });
           //10 MB seran suficientes?
-          var db = openDatabase('BAM', '1.0', 'database', 10 * 1024 * 1024);
+          db = openDatabase('BAM', '1.0', 'database', 10 * 1024 * 1024);
           db.transaction(function (tx) {
-              tx.executeSql('CREATE TABLE IF NOT EXISTS empleados (id unique, Nombre, Direccion, Telefono, Area, FechaNacimiento, FechaContratacion)');
+              tx.executeSql('CREATE TABLE IF NOT EXISTS empleados (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Nombre, Direccion, Telefono, Area, FechaNacimiento, FechaContratacion)');
               //tx.executeSql('INSERT INTO empleados (id, Nombre, Direccion, Telefono, Area, FechaNacimiento, FechaContratacion) ' +
               //'VALUES (2, "Pepe", "Su casa", 012345678, "Trafico", "03/09/1974", "10/2/2007")');
           });
@@ -175,6 +176,7 @@
         var campoTelefono = fila.children[3];
         var campoFechaN = fila.children[5];
         var campoFechaC = fila.children[6];
+
 
         nombre = document.createElement("input");
         if(campoNombre.innerText) {
@@ -246,6 +248,12 @@
         telefono.replaceChild(document.createTextNode(valorTel), telefono.firstChild);
         fechaNacimiento.replaceChild(document.createTextNode(valorFechaN), fechaNacimiento.firstChild);
         fechaContratacion.replaceChild(document.createTextNode(valorFechaC), fechaContratacion.firstChild);
+          var ID = parseInt(fila.children[0].innerText);
+          db.transaction(function (tx) {
+              tx.executeSql('UPDATE empleados SET Nombre =?, Direccion=?, Telefono =?, FechaNacimiento=?, FechaContratacion=? WHERE id =?',
+              [valorNombre, valorDir, valorTel, valorFechaN, valorFechaC, parseInt(ID)]);
+          });
+
 
         obj.className = "btn waves-effect waves-light center";
         obj.firstChild.className = "mdi-editor-mode-edit";
