@@ -70,7 +70,7 @@
                   <td>12120002</td>
                   <td>8AFDT50D986151039</td>
                   <td>Si</td>
-                  <td><button class="btn waves-effect waves-light center"><i class="mdi-editor-mode-edit"></i></button></td>
+                  <td data-modify="0"><button class="btn waves-effect waves-light center editar-fila"><i class="mdi-editor-mode-edit"></i></button></td>
               </tr>
               </tbody>
       </table>
@@ -154,16 +154,6 @@
     </div>
     <!-- Termino del modal -->
 
-    <script>
-      window.onload = function() {
-        $(document).ready(function() {
-          $('select').material_select();
-          $('.modal-trigger').leanModal({
-            dismissible: false
-          });
-        });
-      }
-    </script>
     <script src="../js/jquery.min.js"></script>
     <script type="text/javascript" src="../js/materialize.min.js"></script>
     <script src="../js/main.js"></script>
@@ -176,5 +166,112 @@
           location.reload();
       });
     </script>
+
+
+    <script>
+      window.onload = function() {
+        
+      }
+
+
+  	$(document).ready(function() {
+  		$('select').material_select();
+      	$('.modal-trigger').leanModal({
+        	dismissible: false
+      	});
+
+
+
+      	$(".editar-fila").click(function() {
+
+      		if($(this).hasClass('editar-fila')){
+
+
+	          	var fila = $(this).parent().parent();
+
+
+	          	var items = [null, null, null, null, null, null, null, null, null, null, null, null];
+
+
+
+
+	          	fila.children().each(function(index, el) {
+	          		
+
+	          		if ($(this).data("modify") != "0") {
+
+
+	          			console.log($(this).html());
+
+	          			var txt = $(this).html();
+	          			$(this).html("<input value='"+txt+"'/>")
+
+	          		};
+
+
+	          	});
+
+
+				$(this).removeClass('editar-fila').addClass('green guardar-cambios');
+				$(this).children().removeClass('mdi-editor-mode-edit').addClass('mdi-content-save');
+			}
+
+			else {
+
+				var fila = $(this).parent().parent();
+
+	          	fila.children().each(function(index, el) {
+
+	          		if ($(this).data("modify") != "0") {
+
+	          			var newval = $(this).children().val();
+
+	          			$(this).html(newval);
+
+
+	          		};
+
+	          	});	
+
+
+	          	$(this).removeClass('green guardar-cambios').addClass('editar-fila');
+				$(this).children().removeClass('mdi-content-save').addClass('mdi-editor-mode-edit');
+
+
+			}
+
+
+  		});
+
+
+
+
+
+	});
+
+
+
+      // function guardarCambios(obj, valorRuta, valorTienda, valorFrecuencia) {
+      //   var fila = obj.parentNode.parentNode;
+      //   var ruta = fila.children[0];
+      //   var tienda = fila.children[1];
+      //   var freq = fila.children[2];
+      //   ruta.replaceChild(document.createTextNode(valorRuta), ruta.firstChild);
+      //   tienda.replaceChild(document.createTextNode(valorTienda), tienda.firstChild);
+      //   freq.replaceChild(document.createTextNode(valorFrecuencia), freq.firstChild);
+      //   obj.className = "btn waves-effect waves-light center";
+      //   obj.firstChild.className = "mdi-editor-mode-edit";
+      //   obj.onclick=function() {editar(this)};
+      // }
+
+  	  
+
+
+
+
+
+
+    </script>
+    
   </body>
 </html>
