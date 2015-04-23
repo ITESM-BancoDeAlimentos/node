@@ -51,24 +51,6 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>R1</td>
-              <td>HEB Gonzalitos 2959</td>
-              <td>Lu,Jue</td>
-              <td><button class="btn waves-effect waves-light center" onclick="editar(this)"><i class="mdi-editor-mode-edit"></i></button></td>
-            </tr>
-            <tr>
-              <td>R1</td>
-              <td>HEB Chipinque 2950</td>
-              <td>Diaria</td>
-              <td><button class="btn waves-effect waves-light center" onclick="editar(this)"><i class="mdi-editor-mode-edit"></i></button></td>
-            </tr>
-            <tr>
-              <td>R1</td>
-              <td>HEB San Pedro  2975</td>
-              <td>Lu,Mi,Vi</td>
-              <td><button class="btn waves-effect waves-light center" onclick="editar(this)"><i class="mdi-editor-mode-edit"></i></button></td>
-            </tr>
           </tbody>
         </table>
         <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
@@ -133,8 +115,32 @@
   <!-- Termino del modal -->
 
   <!-- modal form: edicion -->
-    <script type="text/javascript">
+    <script>
+        var db;
       window.onload = function() {
+          db = openDatabase('BAM', '1.0', 'database', 10 * 1024 * 1024);
+          db.transaction(function (tx) {
+              tx.executeSql('CREATE TABLE IF NOT EXISTS visitas (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Nombre, TiendaSucursal, TipoVisita)');
+              tx.executeSql('INSERT INTO visitas (id, Nombre, TiendaSucursal, TipoVisita) ' +
+              'VALUES (1, "R1", "HEB Gonzalitos", "Lu,Jue")');
+              tx.executeSql('INSERT INTO visitas (id, Nombre, TiendaSucursal, TipoVisita) ' +
+              'VALUES (2, "R2", "HEB Chipinque", "Diaria")');
+          });
+          db.transaction(function (tx) {
+              tx.executeSql('SELECT * FROM visitas', [], function (tx, results) {
+                  var len = results.rows.length, i;
+                  $('#calendario').not(':first').not(':last').remove();
+                  var html='';
+                  for (i = 0; i < len; i++) {
+                      //fill the table
+                      alert(results.rows.item(i).Nombre);
+                      html+='<tr><td>'+results.rows.item(i).Nombre+'</td><td>'+results.rows.item(i).TiendaSucursal+'</td><td>';
+                      html+=results.rows.item(i).TipoVisita+'</td>';
+                      html+='<td><button class="btn waves-effect waves-light center" onclick="editar(this)"><i class="mdi-editor-mode-edit"></i></button></td></tr>';
+                  }
+                  $('#calendario tbody').first().after(html);
+              });
+          });
         calendario();
       }
       function calendario() {
