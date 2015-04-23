@@ -42,6 +42,7 @@
           <table class="hoverable" id="choferes">
               <thead>
               <tr>
+                  <th data-field="id">ID</th>
                   <th data-field="nombre">Nombre</th>
                   <th data-field="direccion">Direccion</th>
                   <th data-field="telefono">Telefono</th>
@@ -51,15 +52,6 @@
               </tr>
               </thead>
               <tbody>
-              <tr>
-                  <td>Juan</td>
-                  <td>Su casa</td>
-                  <td>012345678</td>
-                  <td>Trafico</td>
-                  <td>03/09/1974</td>
-                  <td>10/2/2007</td>
-                  <td><button class="btn waves-effect waves-light center" onclick="editar(this)"><i class="mdi-editor-mode-edit"></i></button></td>
-              </tr>
               </tbody>
           </table>
           <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
@@ -106,6 +98,7 @@
     <!-- Termino del modal -->
 
     <script>
+        var db;
       window.onload = function() {
         $(document).ready(function() {
           $('select').material_select();
@@ -117,6 +110,28 @@
           selectMonths: true, // Creates a dropdown to control month
           selectYears: 15 // Creates a dropdown of 15 years to control year
         });
+          //10 MB seran suficientes?
+          db = openDatabase('BAM', '1.0', 'database', 10 * 1024 * 1024);
+          db.transaction(function (tx) {
+              tx.executeSql('CREATE TABLE IF NOT EXISTS empleados (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Nombre, Direccion, Telefono, Area, FechaNacimiento, FechaContratacion)');
+              //tx.executeSql('INSERT INTO empleados (id, Nombre, Direccion, Telefono, Area, FechaNacimiento, FechaContratacion) ' +
+              //'VALUES (2, "Pepe", "Su casa", 012345678, "Trafico", "03/09/1974", "10/2/2007")');
+          });
+          db.transaction(function (tx) {
+              tx.executeSql('SELECT * FROM empleados', [], function (tx, results) {
+                  var len = results.rows.length, i;
+                  $('#choferes').not(':first').not(':last').remove();
+                  var html='';
+                  for (i = 0; i < len; i++) {
+                      //fill the table
+                      html+='<tr><td>'+results.rows.item(i).id+'</td><td>'+results.rows.item(i).Nombre+'</td><td>'+results.rows.item(i).Direccion+'</td><td>';
+                      html+=results.rows.item(i).Telefono+'</td><td>'+results.rows.item(i).Area+'</td><td>';
+                      html+=results.rows.item(i).FechaNacimiento+'</td><td>'+results.rows.item(i).FechaContratacion+'</td>';
+                      html+='<td><button class="btn waves-effect waves-light center" onclick="editar(this)"><i class="mdi-editor-mode-edit"></i></button></td></tr>';
+                  }
+                  $('#choferes tbody').first().after(html);
+              });
+          });
       }
 
       <!-- Edicion de registro -->
@@ -156,11 +171,12 @@
         var fechaNacimiento = null;
         var fechaContratacion = null;
         var fila = obj.parentNode.parentNode;
-        var campoNombre = fila.firstElementChild;
-        var campoDireccion = fila.children[1];
-        var campoTelefono = fila.children[2];
-        var campoFechaN = fila.children[4];
-        var campoFechaC = fila.children[5];
+        var campoNombre = fila.children[1];
+        var campoDireccion = fila.children[2];
+        var campoTelefono = fila.children[3];
+        var campoFechaN = fila.children[5];
+        var campoFechaC = fila.children[6];
+
 
         nombre = document.createElement("input");
         if(campoNombre.innerText) {
@@ -222,16 +238,22 @@
 
       function guardarCambios(obj, valorNombre, valorDir, valorTel, valorFechaN, valorFechaC) {
         var fila = obj.parentNode.parentNode;
-        var nombre = fila.children[0];
-        var direccion = fila.children[1];
-        var telefono = fila.children[2];
-        var fechaNacimiento = fila.children[4];
-        var fechaContratacion = fila.children[5];
+        var nombre = fila.children[1];
+        var direccion = fila.children[2];
+        var telefono = fila.children[3];
+        var fechaNacimiento = fila.children[5];
+        var fechaContratacion = fila.children[6];
         nombre.replaceChild(document.createTextNode(valorNombre), nombre.firstChild);
         direccion.replaceChild(document.createTextNode(valorDir), direccion.firstChild);
         telefono.replaceChild(document.createTextNode(valorTel), telefono.firstChild);
         fechaNacimiento.replaceChild(document.createTextNode(valorFechaN), fechaNacimiento.firstChild);
         fechaContratacion.replaceChild(document.createTextNode(valorFechaC), fechaContratacion.firstChild);
+          var ID = parseInt(fila.children[0].innerText);
+          db.transaction(function (tx) {
+              tx.executeSql('UPDATE empleados SET Nombre =?, Direccion=?, Telefono =?, FechaNacimiento=?, FechaContratacion=? WHERE id =?',
+              [valorNombre, valorDir, valorTel, valorFechaN, valorFechaC, parseInt(ID)]);
+          });
+
 
         obj.className = "btn waves-effect waves-light center";
         obj.firstChild.className = "mdi-editor-mode-edit";
