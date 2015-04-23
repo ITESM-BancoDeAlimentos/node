@@ -236,11 +236,11 @@
 
       function guardarCambios(obj, valorNombre, valorDir, valorTel, valorFechaN, valorFechaC) {
         var fila = obj.parentNode.parentNode;
-        var nombre = fila.children[0];
-        var direccion = fila.children[1];
-        var telefono = fila.children[2];
-        var fechaNacimiento = fila.children[4];
-        var fechaContratacion = fila.children[5];
+        var nombre = fila.children[1];
+        var direccion = fila.children[2];
+        var telefono = fila.children[3];
+        var fechaNacimiento = fila.children[5];
+        var fechaContratacion = fila.children[6];
         nombre.replaceChild(document.createTextNode(valorNombre), nombre.firstChild);
         direccion.replaceChild(document.createTextNode(valorDir), direccion.firstChild);
         telefono.replaceChild(document.createTextNode(valorTel), telefono.firstChild);
