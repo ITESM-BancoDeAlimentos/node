@@ -51,15 +51,6 @@
               </tr>
               </thead>
               <tbody>
-              <tr>
-                  <td>Juan</td>
-                  <td>Su casa</td>
-                  <td>012345678</td>
-                  <td>Trafico</td>
-                  <td>03/09/1974</td>
-                  <td>10/2/2007</td>
-                  <td><button class="btn waves-effect waves-light center" onclick="editar(this)"><i class="mdi-editor-mode-edit"></i></button></td>
-              </tr>
               </tbody>
           </table>
           <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
@@ -117,6 +108,28 @@
           selectMonths: true, // Creates a dropdown to control month
           selectYears: 15 // Creates a dropdown of 15 years to control year
         });
+          //10 MB seran suficientes?
+          var db = openDatabase('BAM', '1.0', 'database', 10 * 1024 * 1024);
+          db.transaction(function (tx) {
+              tx.executeSql('CREATE TABLE IF NOT EXISTS empleados (id unique, Nombre, Direccion, Telefono, Area, FechaNacimiento, FechaContratacion)');
+              //tx.executeSql('INSERT INTO empleados (id, Nombre, Direccion, Telefono, Area, FechaNacimiento, FechaContratacion) ' +
+              //'VALUES (2, "Pepe", "Su casa", 012345678, "Trafico", "03/09/1974", "10/2/2007")');
+          });
+          db.transaction(function (tx) {
+              tx.executeSql('SELECT * FROM empleados', [], function (tx, results) {
+                  var len = results.rows.length, i;
+                  $('#choferes').not(':first').not(':last').remove();
+                  var html='';
+                  for (i = 0; i < len; i++) {
+                      //fill the table
+                      html+='<tr><td>'+results.rows.item(i).Nombre+'</td><td>'+results.rows.item(i).Direccion+'</td><td>';
+                      html+=results.rows.item(i).Telefono+'</td><td>'+results.rows.item(i).Area+'</td><td>';
+                      html+=results.rows.item(i).FechaNacimiento+'</td><td>'+results.rows.item(i).FechaContratacion+'</td>';
+                      html+='<td><button class="btn waves-effect waves-light center" onclick="editar(this)"><i class="mdi-editor-mode-edit"></i></button></td></tr>';
+                  }
+                  $('#choferes tbody').first().after(html);
+              });
+          });
       }
 
       <!-- Edicion de registro -->
