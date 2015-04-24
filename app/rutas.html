@@ -4,6 +4,11 @@
     <!--Import materialize.css-->
     <link type="text/css" rel="stylesheet" href="../css/materialize.min.css"  media="screen,projection"/>
     <meta charset="UTF-8"></meta>
+    <style>
+      #modal1{
+        height: 800px;
+      }
+    </style>
   </head>
   <body>
     <div class="row">
@@ -66,22 +71,33 @@
         <h3 class="center">Registrar una nueva ruta</h3>
         <form class="col s12" id="form-id">
           <div class="row">
-            <div class="input-field col s6">
-              <select name ="ruta">
-                <option value="" disabled selected>Escoja una ruta</option>
-                <option value="R1">R1</option>
-                <option value="R2">R2</option>
-                <option value="R3">R3</option>
-              </select>
+            <div class="input-field col s12">
               <label>Ruta</label>
+              <br/>
+              <p>
+                <input class="rutaOpcion" name="group1" type="radio" id="test1" value="Si" />
+                <label for="test1">Ruta existente</label>
+              </p>
+              <p>
+                <input class="rutaOpcion" name="group1" type="radio" id="test2" value="No"/>
+                <label for="test2">Nueva ruta</label>
+              </p>
             </div>
+            <div class="input-field col s12" id="escribirRuta">
+              <input id="ruta" type="text" class="validate" name="ruta">
+              <label for="ruta">Ruta</label>
+            </div>
+            <div class="input-field col s12" id="selectRuta">
+              <select id="ruta" class="selectRutasBase browser-default" name="ruta">
+              </select>
+            </div>
+          </div>
+          <div class="row">
             <div class="input-field col s6">
               <input id="tienda" type="text" class="validate" name="tienda">
               <label for="tienda">Tienda Sucursal</label>
             </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s12">
+            <div class="input-field col s6">
               <p class="tooltipped" data-tooltip="Escoger todos los días que se visitara la sucursal" data-positon="left" data-delay="50">Tipo de Visita</p>
               <input type="checkbox" class="filled-in" id="lunes" name="lunes" value ="Lu"/>
               <label for="lunes">Lunes</label>
@@ -161,6 +177,17 @@
             refreshCalendario();
           }
           });
+          db.transaction(function (tx) {
+              tx.executeSql('SELECT * FROM visitas ORDER BY Nombre ASC', [], function (tx, results) {
+                var len = results.rows.length, i;
+                //$('#selectRuta').not(':first').not(':last').remove();
+                var html='<option value="" disabled selected>Escoje una ruta</option>';
+                for (i = 0; i < len; i++) {
+                  html+='<option value="'+results.rows.item(i).Nombre+'">'+results.rows.item(i).Nombre+'</option>';
+                }
+                $('#selectRuta select').append(html);
+              });
+          });
         });
       }
       function inicializarTabla(callback) {
@@ -173,7 +200,7 @@
               'VALUES (2, "R2", "HEB Chipinque", "Diaria")');
           });
           db.transaction(function (tx) {
-              tx.executeSql('SELECT * FROM visitas', [], function (tx, results) {
+              tx.executeSql('SELECT * FROM visitas ORDER BY Nombre ASC', [], function (tx, results) {
                 var len = results.rows.length, i;
                 $('#calendario').not(':first').not(':last').remove();
                 var html='';
@@ -237,6 +264,17 @@
         $('.modal-trigger').leanModal({
           dismissible: false
         });
+        $("#selectRuta, #escribirRuta").css("display","none");
+        $(".rutaOpcion").on("click",function(){
+          if ($('input[name=group1]:checked').val() == "No") {
+            $("#escribirRuta").slideDown("fast"); //Slide Down Effect
+            $("#selectRuta").slideUp("fast"); //Slide Down Effect
+          }
+          if ($('input[name=group1]:checked').val() == "Si"){
+            $("#selectRuta").slideDown("fast"); 
+            $("#escribirRuta").slideUp("fast");
+          }
+        });
       });
 
       function refreshCalendario() {
@@ -297,7 +335,12 @@
       }
       function agregarABase(){
           var form = document.getElementById("form-id");
-          var ruta = form.ruta.value;
+          if ( $('#selectRuta').css('display') == 'none' ){
+            var ruta = form.ruta[0].value;
+          } else {
+            var ruta = form.ruta[1].value;
+          }
+          //var ruta = form.ruta.value;
           var tienda = trim(form.tienda.value);
           var visitas = "";
           if(form.lunes.checked){
