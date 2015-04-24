@@ -46,6 +46,7 @@
                 <th data-field="tienda">Tienda Sucursal</th>
                 <th data-field="frecuencia">Tipo de Visita</th>
                 <th></th>
+                <th></th>
                 <th data-field="lunes">Lunes</th>
                 <th data-field="martes">Martes</th>
                 <th data-field="miercoles">Miércoles</th>
@@ -148,7 +149,7 @@
       window.onload = function() {
         inicializarTabla(function() {
           calendario();
-          $(".editar-fila").click(function() {
+          $("#calendario").on("click","button",function() {
           if($(this).hasClass('editar-fila')){
             var fila = $(this).parent().parent();
             var items = [null, null, null];
@@ -162,7 +163,7 @@
             $(this).removeClass('editar-fila').addClass('green guardar-cambios');
             $(this).children().removeClass('mdi-editor-mode-edit').addClass('mdi-content-save');
           }
-          else {
+          else if ($(this).hasClass('guardar-cambios')){
             var fila = $(this).parent().parent();
             fila.children().each(function(index, el) {
               if ($(this).data("modify") != "0" && index < 3) {
@@ -176,6 +177,26 @@
             guardarCambios(fila);
             location.reload();
           }
+
+          else if($(this).hasClass('borrar-fila')){
+
+				var fila = $(this).parent().parent();
+				
+				var ID = fila.attr('data-id');
+
+				db.transaction(function (tx) {
+
+
+					tx.executeSql('DELETE FROM visitas WHERE id=' + ID);
+
+        		});
+
+				fila.html("");
+
+
+			}
+
+
           });
           db.transaction(function (tx) {
               tx.executeSql('SELECT DISTINCT Nombre FROM visitas ORDER BY Nombre ASC', [], function (tx, results) {
@@ -209,7 +230,8 @@
                   //alert(results.rows.item(i).Nombre);
                   html+='<tr data-id="'+results.rows.item(i).id+'"><td>'+results.rows.item(i).Nombre+'</td><td>'+results.rows.item(i).TiendaSucursal+'</td><td>';
                   html+=results.rows.item(i).TipoVisita+'</td>';
-                  html+='<td data-modify="0"><button class="btn waves-effect waves-light center editar-fila"><i class="mdi-editor-mode-edit"></i></button></td></tr>';
+                  html+='<td data-modify="0"><button class="btn waves-effect waves-light center editar-fila"><i class="mdi-editor-mode-edit"></i></button></td>' + 
+                	'<td data-modify="0"><button class="btn waves-effect waves-light center red borrar-fila"><i class="mdi-action-delete"></i></button></td></tr>';
                 }
                 $('#calendario tbody').append(html);
                 callback();
