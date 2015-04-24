@@ -114,12 +114,50 @@
     </div>
   <!-- Termino del modal -->
 
-  <!-- modal form: edicion -->
+    <script src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/materialize.min.js"></script>
+    <script src="../js/main.js"></script>
     <script>
-        var db;
+      var path = './app/';
+      var fs = require('fs');
+
+      fs.watch(path, function() {
+        if (location)
+          location.reload();
+      });
+    </script>
+    <script>
+      var db;
       window.onload = function() {
         inicializarTabla(function() {
           calendario();
+          $(".editar-fila").click(function() {
+          if($(this).hasClass('editar-fila')){
+            var fila = $(this).parent().parent();
+            var items = [null, null, null];
+            fila.children().each(function(index, el) {
+             if ($(this).data("modify") != "0" && index < 3) {
+                console.log($(this).html());
+                var txt = $(this).html();
+                $(this).html("<input value='"+txt+"'/>")
+              };
+            });
+            $(this).removeClass('editar-fila').addClass('green guardar-cambios');
+            $(this).children().removeClass('mdi-editor-mode-edit').addClass('mdi-content-save');
+          }
+          else {
+            var fila = $(this).parent().parent();
+            fila.children().each(function(index, el) {
+              if ($(this).data("modify") != "0" && index < 3) {
+                  var newval = $(this).children().val();
+                  $(this).html(newval);
+              };
+            });	
+            $(this).removeClass('green guardar-cambios').addClass('editar-fila');
+            $(this).children().removeClass('mdi-content-save').addClass('mdi-editor-mode-edit');
+            refreshCalendario();
+          }
+          });
         });
       }
       function inicializarTabla(callback) {
@@ -138,12 +176,12 @@
                 var html='';
                 for (i = 0; i < len; i++) {
                     //fill the table
-                    alert(results.rows.item(i).Nombre);
+                    //alert(results.rows.item(i).Nombre);
                     html+='<tr><td>'+results.rows.item(i).Nombre+'</td><td>'+results.rows.item(i).TiendaSucursal+'</td><td>';
                     html+=results.rows.item(i).TipoVisita+'</td>';
-                    html+='<td><button class="btn waves-effect waves-light center" onclick="editar(this)"><i class="mdi-editor-mode-edit"></i></button></td></tr>';
+                    html+='<td data-modify="0"><button class="btn waves-effect waves-light center editar-fila"><i class="mdi-editor-mode-edit"></i></button></td></tr>';
                 }
-                $('#calendario tbody').first().after(html);
+                $('#calendario tbody').append(html);
                 callback();
               });
           });
@@ -191,9 +229,11 @@
           }
         }
       }
-      $(document).ready(function() {
-          $('select').material_select();
-          $('.modal-trigger').leanModal();
+      $(window).ready(function() {
+        $('select').material_select();
+        $('.modal-trigger').leanModal({
+          dismissible: false
+        });
       });
 
       function refreshCalendario() {
@@ -244,110 +284,18 @@
           }
         }
       }
-
-      <!-- Edicion de registro -->
-      function trim(value) {
-        var temp = value;
-        var obj = /^(\s*)([\W\w]*)(\b\s*$)/;
-        if (obj.test(temp)) { temp = temp.replace(obj, '$2');}
-        var obj = /  /g;
-        while (temp.match(obj)) { temp = temp.replace(obj, " ");}
-        return temp;
-      }
-
-      function getTextWidth(texto) {
-        var ancho = 150;
-
-        if(trim(texto) == "") {
-            return ancho;
-        }
-
-        var span = document.createElement("span");
-        span.style.visibility = "hidden";
-        span.style.position = "absolute";
-        span.appendChild(document.createTextNode(texto));
-        document.getElementsByTagName("body")[0].appendChild(span);
-        ancho = span.offsetWidth;
-        document.getElementsByTagName("body")[0].removeChild(span);
-        span = null;
-
-        return ancho;
-      }
-
-
-      function editar(obj) {
-        var ruta = null;
-        var tienda = null;
-        var frecuencia = null;
-        var fila = obj.parentNode.parentNode;
-        var campoRuta = fila.firstElementChild;
-        var campoTienda = fila.children[1];
-        var campoFrecuencia = fila.children[2];
-
-        ruta = document.createElement("input");
-        if(campoRuta.innerText) {
-          ruta.value = campoRuta.innerText;
-        } else {
-          ruta.value = campoRuta.textContent;
-        }
-        ruta.style.width = getTextWidth(ruta.value) + 30 + "px";
-        campoRuta.replaceChild(ruta, campoRuta.firstChild);
-
-
-        tienda = document.createElement("input");
-        if(campoTienda.innerText) {
-          tienda.value = campoTienda.innerText;
-        } else {
-          tienda.value = campoTienda.textContent;
-        }
-        tienda.style.width = getTextWidth(tienda.value) + 30 + "px";
-        campoTienda.replaceChild(tienda, campoTienda.firstChild);
-
-
-        frecuencia = document.createElement("input");
-        if(campoFrecuencia.innerText) {
-          frecuencia.value = campoFrecuencia.innerText;
-        } else {
-          frecuencia.value = campoFrecuencia.textContent;
-        }
-        frecuencia.style.width = getTextWidth(frecuencia.value) + 30 + "px";
-        campoFrecuencia.replaceChild(frecuencia, campoFrecuencia.firstChild);
-
-        obj.className = "btn waves-effect waves-light center green";
-        obj.firstChild.className = "mdi-content-save";
-        obj.onclick = function salir() {
-          guardarCambios(obj, ruta.value, tienda.value, frecuencia.value);
-          delete ruta;
-          delete tienda;
-          delete frecuencia;
-          refreshCalendario();
-        }
-      }
-
-      function guardarCambios(obj, valorRuta, valorTienda, valorFrecuencia) {
-        var fila = obj.parentNode.parentNode;
-        var ruta = fila.children[0];
-        var tienda = fila.children[1];
-        var freq = fila.children[2];
-        ruta.replaceChild(document.createTextNode(valorRuta), ruta.firstChild);
-        tienda.replaceChild(document.createTextNode(valorTienda), tienda.firstChild);
-        freq.replaceChild(document.createTextNode(valorFrecuencia), freq.firstChild);
-        obj.className = "btn waves-effect waves-light center";
-        obj.firstChild.className = "mdi-editor-mode-edit";
-        obj.onclick=function() {editar(this)};
-      }
-    </script>
-    <script src="../js/jquery.min.js"></script>
-    <script type="text/javascript" src="../js/materialize.min.js"></script>
-    <script src="../js/main.js"></script>
-    <script>
-      var path = './app/';
-      var fs = require('fs');
-
-      fs.watch(path, function() {
-        if (location)
-          location.reload();
-      });
+//      function guardarCambios(obj, valorRuta, valorTienda, valorFrecuencia) {
+//        var fila = obj.parentNode.parentNode;
+//        var ruta = fila.children[0];
+//        var tienda = fila.children[1];
+//        var freq = fila.children[2];
+//        ruta.replaceChild(document.createTextNode(valorRuta), ruta.firstChild);
+//        tienda.replaceChild(document.createTextNode(valorTienda), tienda.firstChild);
+//        freq.replaceChild(document.createTextNode(valorFrecuencia), freq.firstChild);
+//        obj.className = "btn waves-effect waves-light center";
+//        obj.firstChild.className = "mdi-editor-mode-edit";
+//        obj.onclick=function() {editar(this)};
+//      }
     </script>
   </body>
 </html>
