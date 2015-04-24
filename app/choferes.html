@@ -64,35 +64,36 @@
     <div class="modal" id="modal1">
       <div class="modal-content">
         <h3 class="center">Registrar un nuevo chofer</h3>
-        <form class="col s12">
+        <form class="col s12" id="form-id">
           <div class="row">
             <div class="input-field col s12">
-              <input id="nombre" type="text" class="validate">
+              <input name = "nombre" id="nombre" type="text" class="validate">
               <label for="nombre">Nombre completo</label>
             </div>
             <div class="input-field col s6">
-              <input id="direccion" type="text" class="validate">
+              <input name = "direccion" id="direccion" type="text" class="validate">
               <label for="direccion">Direccion</label>
             </div>
             <div class="input-field col s6">
-              <input id="telefono" type="text" class="validate">
+              <input name = "telefono" id="telefono" type="text" class="validate">
               <label for="telefono">Telefono</label>
             </div>
             <div class="input-field col s6">
-              <input id="nacimiento" type="date" class="datepicker">
+              <input name = "nacimiento" id="nacimiento" type="date" class="datepicker">
               <label for="nacimiento">Fecha de Nacimiento</label>
             </div>
             <div class="input-field col s6">
-              <input id="contratacion" type="date" class="datepicker">
+              <input name = contratacion" id="contratacion" type="date" class="datepicker">
               <label for="contratacion">Fecha de Contratacion</label>
             </div>
           </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat" id="submit-id" onclick="agregarABase()">Submit</a>
+                <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
+            </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Submit</a>
-        <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
-      </div>
+
     </div>
     <!-- Termino del modal -->
 
@@ -131,6 +132,7 @@
                   $('#choferes tbody').first().after(html);
               });
           });
+
       }
 
       <!-- Edicion de registro -->
@@ -161,7 +163,24 @@
 
         return ancho;
       }
+        function agregarABase(){
+            var form = document.getElementById("form-id");
+            var nom = trim(form.nombre.value);
+            var dir = trim(form.direccion.value);
+            var tel = trim(form.telefono.value);
+            var nac = trim(form.nacimiento.value);
+            var con = trim(form.nacimiento.value);
+            if(nom == "" || dir == "" || tel=="" || nac == "" || con ==""){
+                alert("Por favor llena todos los campos");
+                return false;
+            }
+            db.transaction(function (tx) {
+                tx.executeSql('INSERT INTO empleados VALUES (NULL, ?, ?, ?, ?, ?, ?);',
+                        [nom, dir, tel, "Trafico", nac, con]);
+            });
+            return true;
 
+        }
 
       function editar(obj) {
         var nombre = null;
