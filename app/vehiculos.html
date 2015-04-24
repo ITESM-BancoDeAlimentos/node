@@ -169,6 +169,56 @@
 
 
     <script>
+<<<<<<< Updated upstream
+=======
+      window.onload = function() {
+
+
+      	db = openDatabase('BAM', '1.0', 'database', 10 * 1024 * 1024);
+      	db.transaction(function (tx) {
+              tx.executeSql('CREATE TABLE IF NOT EXISTS vehiculos (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Nombre, Marca, Modelo, Descripcion, Placas, Clasificacion, Donante, Combustible, NumTarjeta, NumHolograma, NumSerie, Estatus)');
+
+              // tx.executeSql('INSERT INTO vehiculos (Nombre, Marca, Modelo, Descripcion, Placas, Clasificacion, Donante, Combustible, NumTarjeta, NumHolograma, NumSerie, Estatus) ' +
+              // 'VALUES ("Carro1?", "Ford", "2008", "Ranger", "RE 78-067", "Carga Ligera", "Caritas", "Magna", "126002", "12120002", "ABCDEFGHIJK8", "Si")');
+
+
+              // tx.executeSql('INSERT INTO vehiculos (Nombre, Marca, Modelo, Descripcion, Placas, Clasificacion, Donante, Combustible, NumTarjeta, NumHolograma, NumSerie, Estatus) ' +
+              // 'VALUES ("carro2", "Ford", "2008", "Ranger", "RE 78-067", "Carga Ligera", "Caritas", "Magna", "126002", "12120002", "ABCDEFGHIJK8", "Si")');
+          });
+
+      	db.transaction(function (tx) {
+          	tx.executeSql('SELECT * FROM vehiculos', [], function (tx, results) {
+              	var len = results.rows.length, i;
+
+              	$('#vehiculos tbody').html("");
+              	var html='';
+              	for (i = 0; i < len; i++) {
+
+              		html+='<tr><td>'+
+              		results.rows.item(i).Nombre + '</td><td>' +
+					results.rows.item(i).Marca + '</td><td>' +
+					results.rows.item(i).Modelo + '</td><td>' +
+					results.rows.item(i).Descripcion + '</td><td>' +
+					results.rows.item(i).Placas + '</td><td>' +
+					results.rows.item(i).Clasificacion + '</td><td>' +
+					results.rows.item(i).Donante + '</td><td>' +
+					results.rows.item(i).Combustible + '</td><td>' +
+					results.rows.item(i).NumTarjeta + '</td><td>' +
+					results.rows.item(i).NumHolograma + '</td><td>' +
+					results.rows.item(i).NumSerie + '</td><td>' +
+					results.rows.item(i).Estatus + '</td>' +
+              		'<td data-modify="0"><button class="btn waves-effect waves-light center editar-fila"><i class="mdi-editor-mode-edit"></i></button></td></tr>';
+				}
+
+				$("#vehiculos tbody").html(html);
+
+          	});
+      	});
+        
+      }
+
+
+>>>>>>> Stashed changes
   	$(document).ready(function() {
   		$('select').material_select();
       	$('.modal-trigger').leanModal({
@@ -176,8 +226,9 @@
     });
 
 
+      	$("#vehiculos button").click(function() {
 
-      	$(".editar-fila").click(function() {
+      		alert("aaa");
 
       		if($(this).hasClass('editar-fila')){
 
