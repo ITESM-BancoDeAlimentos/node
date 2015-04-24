@@ -174,11 +174,11 @@
             $(this).children().removeClass('mdi-content-save').addClass('mdi-editor-mode-edit');
             var fila = $(this).parent().parent();
             guardarCambios(fila);
-            refreshCalendario();
+            location.reload();
           }
           });
           db.transaction(function (tx) {
-              tx.executeSql('SELECT * FROM visitas ORDER BY Nombre ASC', [], function (tx, results) {
+              tx.executeSql('SELECT DISTINCT Nombre FROM visitas ORDER BY Nombre ASC', [], function (tx, results) {
                 var len = results.rows.length, i;
                 //$('#selectRuta').not(':first').not(':last').remove();
                 var html='<option value="" disabled selected>Escoje una ruta</option>';
@@ -200,7 +200,7 @@
               'VALUES (2, "R2", "HEB Chipinque", "Diaria")');
           });
           db.transaction(function (tx) {
-              tx.executeSql('SELECT * FROM visitas ORDER BY Nombre ASC', [], function (tx, results) {
+              tx.executeSql('SELECT * FROM visitas ORDER BY Lower(Nombre) ASC', [], function (tx, results) {
                 var len = results.rows.length, i;
                 $('#calendario').not(':first').not(':last').remove();
                 var html='';
@@ -277,54 +277,6 @@
         });
       });
 
-      function refreshCalendario() {
-         var length = document.getElementById("calendario").rows.length;
-        for(i=1; i<length; i++) {
-          var fila = document.getElementById("calendario").rows[i].cells;
-          var dias = fila[2].textContent;
-          if(dias.search("Diaria") >=0) {
-            for(j=4; j<11; j++) {
-              fila.item(j). style.backgroundColor ="#0277bd";
-            }
-          } else {
-            if(dias.search("Lu") >= 0) {
-               fila.item(4).style.backgroundColor ="#0277bd";
-            } else {
-              fila.item(4).style.backgroundColor ="#ffffff";
-            }
-            if(dias.search("Mar") >= 0) {
-               fila.item(5).style.backgroundColor ="#0277bd";
-            } else {
-              fila.item(5).style.backgroundColor ="#ffffff";
-            }
-            if(dias.search("Mi") >= 0) {
-               fila.item(6).style.backgroundColor ="#0277bd";
-            } else {
-              fila.item(6).style.backgroundColor ="#ffffff";
-            }
-            if(dias.search("Jue") >= 0) {
-               fila.item(7).style.backgroundColor ="#0277bd";
-            } else {
-              fila.item(7).style.backgroundColor ="#ffffff";
-            }
-            if(dias.search("Vi") >= 0) {
-               fila.item(8).style.backgroundColor ="#0277bd";
-            } else {
-              fila.item(8).style.backgroundColor ="#ffffff";
-            }
-            if(dias.search("Sab") >= 0) {
-               fila.item(9).style.backgroundColor ="#0277bd";
-            } else {
-              fila.item(9).style.backgroundColor ="#ffffff";
-            }
-            if(dias.search("Dom") >= 0) {
-               fila.item(10).style.backgroundColor ="#0277bd";
-            } else {
-              fila.item(10).style.backgroundColor ="#ffffff";
-            }
-          }
-        }
-      }
       function trim(value) {
           var temp = value;
           var obj = /^(\s*)([\W\w]*)(\b\s*$)/;
@@ -407,6 +359,7 @@
               tx.executeSql('INSERT INTO visitas VALUES (NULL, ?, ?, ?);',
                       [ruta, tienda, visitas]);
           });
+        location.reload();
           return true;
       }
       function guardarCambios(fila) {

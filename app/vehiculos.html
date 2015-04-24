@@ -185,7 +185,7 @@
           });
 
       	db.transaction(function (tx) {
-          	tx.executeSql('SELECT * FROM vehiculos', [], function (tx, results) {
+          	tx.executeSql('SELECT * FROM vehiculos ORDER BY Lower(Nombre) ASC', [], function (tx, results) {
               	var len = results.rows.length, i;
               	$('#vehiculos tbody').html("");
               	var html='';
@@ -275,6 +275,7 @@
           tx.executeSql('INSERT INTO vehiculos VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
                   [nombre, marca, modelo, descripcion, placas, clasificacion, donante, gasolina, numTarjeta, numHolograma, numSerie, disponible]);
       });
+      location.reload();
       return true;
     }
 

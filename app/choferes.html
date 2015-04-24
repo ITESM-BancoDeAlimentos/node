@@ -151,7 +151,7 @@
             //'VALUES (2, "Pepe", "Su casa", 012345678, "Trafico", "03/09/1974", "10/2/2007")');
         });
         db.transaction(function (tx) {
-          tx.executeSql('SELECT * FROM empleados', [], function (tx, results) {
+          tx.executeSql('SELECT * FROM empleados ORDER BY Lower(Nombre) ASC', [], function (tx, results) {
             var len = results.rows.length, i;
             $('#choferes').not(':first').not(':last').remove();
             var html='';
@@ -200,6 +200,7 @@
               tx.executeSql('INSERT INTO empleados VALUES (NULL, ?, ?, ?, ?, ?, ?);',
                       [nom, dir, tel, "Trafico", nac, con]);
           });
+          location.reload();
           return true;
       }
 
