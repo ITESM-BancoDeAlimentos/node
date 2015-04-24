@@ -64,10 +64,10 @@
     <div class="modal" id="modal1">
       <div class="modal-content">
         <h3 class="center">Registrar una nueva ruta</h3>
-        <form class="col s12">
+        <form class="col s12" id="form-id">
           <div class="row">
             <div class="input-field col s6">
-              <select>
+              <select name ="ruta">
                 <option value="" disabled selected>Escoja una ruta</option>
                 <option value="R1">R1</option>
                 <option value="R2">R2</option>
@@ -76,41 +76,42 @@
               <label>Ruta</label>
             </div>
             <div class="input-field col s6">
-              <input id="tienda" type="text" class="validate">
+              <input id="tienda" type="text" class="validate" name="tienda">
               <label for="tienda">Tienda Sucursal</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s12">
               <p class="tooltipped" data-tooltip="Escoger todos los días que se visitara la sucursal" data-positon="left" data-delay="50">Tipo de Visita</p>
-              <input type="checkbox" class="filled-in" id="lunes" name="frecuencia" value ="Lu"/>
+              <input type="checkbox" class="filled-in" id="lunes" name="lunes" value ="Lu"/>
               <label for="lunes">Lunes</label>
               <br/>
-              <input type="checkbox" class="filled-in" id="martes" name="frecuencia" value ="Mar"/>
+              <input type="checkbox" class="filled-in" id="martes" name="martes" value ="Mar"/>
               <label for="martes">Martes</label>
               <br/>
-              <input type="checkbox" class="filled-in" id="miercoles" name="frecuencia" value ="Mi"/>
+              <input type="checkbox" class="filled-in" id="miercoles" name="miercoles" value ="Mi"/>
               <label for="miercoles">Miércoles</label>
               <br/>
-              <input type="checkbox" class="filled-in" id="jueves" name="frecuencia" value ="Jue"/>
+              <input type="checkbox" class="filled-in" id="jueves" name="jueves" value ="Jue"/>
               <label for="jueves">Jueves</label>
               <br/>
-              <input type="checkbox" class="filled-in" id="viernes" name="frecuencia" value ="Vi"/>
+              <input type="checkbox" class="filled-in" id="viernes" name="viernes" value ="Vi"/>
               <label for="viernes">Viernes</label>
               <br/>
-              <input type="checkbox" class="filled-in" id="sabado" name="frecuencia" value ="Sab"/>
+              <input type="checkbox" class="filled-in" id="sabado" name="sabado" value ="Sab"/>
               <label for="sabado">Sábado</label>
               <br/>
-              <input type="checkbox" class="filled-in" id="domingo" name="frecuencia" value ="Dom"/>
+              <input type="checkbox" class="filled-in" id="domingo" name="domingo" value ="Dom"/>
               <label for="domingo">Domingo</label>
             </div>
           </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat" id="submit-id" onclick="agregarABase()">Submit</a>
+                <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
+            </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Submit</a>
-        <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
-      </div>
+
     </div>
   <!-- Termino del modal -->
 
@@ -285,6 +286,85 @@
             }
           }
         }
+      }
+      function trim(value) {
+          var temp = value;
+          var obj = /^(\s*)([\W\w]*)(\b\s*$)/;
+          if (obj.test(temp)) { temp = temp.replace(obj, '$2');}
+          var obj = /  /g;
+          while (temp.match(obj)) { temp = temp.replace(obj, " ");}
+          return temp;
+      }
+      function agregarABase(){
+          var form = document.getElementById("form-id");
+          var ruta = form.ruta.value;
+          var tienda = trim(form.tienda.value);
+          var visitas = "";
+          if(form.lunes.checked){
+              visitas+="Lu";
+          }
+          if(form.martes.checked){
+              if(visitas!=""){
+                  visitas+=", Mar";
+              }
+              else{
+                  visitas+="Mar";
+              }
+          }
+          if(form.miercoles.checked){
+              if(visitas!=""){
+                  visitas+=", Mi";
+              }
+              else{
+                  visitas+="Mi";
+              }
+          }
+          if(form.jueves.checked){
+              if(visitas!=""){
+                  visitas+=", Jue";
+              }
+              else{
+                  visitas+="Jue";
+              }
+          }
+          if(form.viernes.checked){
+              if(visitas!=""){
+                  visitas+=", Vi";
+              }
+              else{
+                  visitas+="Vi";
+              }
+          }
+          if(form.sabado.checked){
+              if(visitas!=""){
+                  visitas+=", Sab";
+              }
+              else{
+                  visitas+="Sab";
+              }
+          }
+          if(form.domingo.checked){
+              if(visitas!=""){
+                  visitas+=", Dom";
+              }
+              else{
+                  visitas+="Dom";
+              }
+          }
+
+          if(visitas == "Lu, Mar, Mi, Jue, Vi, Sab, Dom"){
+              visitas="Diaria";
+          }
+
+          if(ruta == "" || tienda == "" || visitas == ""){
+              alert("Por favor llena todos los campos");
+              return false;
+          }
+          db.transaction(function (tx) {
+              tx.executeSql('INSERT INTO visitas VALUES (NULL, ?, ?, ?);',
+                      [ruta, tienda, visitas]);
+          });
+          return true;
       }
       function guardarCambios(fila) {
         fila = fila[0];
