@@ -155,6 +155,8 @@
             });	
             $(this).removeClass('green guardar-cambios').addClass('editar-fila');
             $(this).children().removeClass('mdi-content-save').addClass('mdi-editor-mode-edit');
+            var fila = $(this).parent().parent();
+            guardarCambios(fila);
             refreshCalendario();
           }
           });
@@ -284,24 +286,17 @@
           }
         }
       }
-//      function guardarCambios(obj, valorRuta, valorTienda, valorFrecuencia) {
-//        var fila = obj.parentNode.parentNode;
-//        var ruta = fila.children[0];
-//        var tienda = fila.children[1];
-//        var freq = fila.children[2];
-//        ruta.replaceChild(document.createTextNode(valorRuta), ruta.firstChild);
-//        tienda.replaceChild(document.createTextNode(valorTienda), tienda.firstChild);
-//        freq.replaceChild(document.createTextNode(valorFrecuencia), freq.firstChild);
-//
-//          var ID = obj.parentNode.parentNode.getAttribute("data-id");
-//          db.transaction(function (tx) {
-//              tx.executeSql('UPDATE visitas SET Nombre =?, TiendaSucursal=?, TipoVisita=? WHERE id =?',
-//                      [valorRuta, valorTienda, valorFrecuencia, parseInt(ID)]);
-//          });
-//        obj.className = "btn waves-effect waves-light center";
-//        obj.firstChild.className = "mdi-editor-mode-edit";
-//        obj.onclick=function() {editar(this)};
-//      }
+      function guardarCambios(fila) {
+        fila = fila[0];
+        var ruta = fila.children[0].innerText;
+        var tienda = fila.children[1].innerText;
+        var freq = fila.children[2].innerText;
+        var ID = fila.getAttribute("data-id");
+        db.transaction(function (tx) {
+            tx.executeSql('UPDATE visitas SET Nombre =?, TiendaSucursal=?, TipoVisita=? WHERE id =?',
+                    [ruta, tienda, freq, parseInt(ID)]);
+        });
+      }
     </script>
   </body>
 </html>
