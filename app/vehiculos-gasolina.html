@@ -4,6 +4,11 @@
     <!--Import materialize.css-->
     <link type="text/css" rel="stylesheet" href="../css/materialize.min.css"  media="screen,projection"/>
     <meta charset="UTF-8"></meta>
+    <style>
+      #modal1{
+        height: 800px;
+      }
+    </style>
   </head>
   <body>
     <div class="row">
@@ -29,13 +34,106 @@
 
       <div class="col s10 offset-s2">
         <nav>
-          <div class="nav-wrapper">
-            <a href="#" class="brand-logo center">DASHBOARD</a>
+          <div class="nav-wrapper teal">
+            <a href="#" class="brand-logo center">Gasolina</a>
+            <ul id="nav-mobile" class="left hide-on-med-and-down">
+              <li><a href="./vehiculos.html">Control</a></li>
+              <li class="active"><a href="./vehiculos-gasolina.html">Gasolina</a></li>
+              <li><a href="./vehiculos-mantenimiento.html">Mantenimientos</a></li>
+            </ul>
           </div>
         </nav>
+        <table class="hoverable" id="gasolina">
+          <thead>
+            <tr>
+                <th data-field="fecha">Fecha</th>
+                <th data-field="operador">Operador</th>
+                <th data-field="vehiculo">Vehiculo</th>
+                <th data-field="kilometraje">Kilometraje</th>
+                <th data-field="carga">Carga $</th>
+                <th data-field="combustible">Tipo de Combustible</th>
+                <th data-field="formaDePago">Forma de Pago</th>
+                <th data-field="precioLitro">Combustible $</th>
+                <th data-field="numTH">No. Tarjeta/Holograma</th>
+                <th data-field="numTicket">No. Ticket</th>
+                <th></th>
+                <th></th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+        <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+          <a href="#modal1" class="btn-floating btn-large teal tooltipped modal-trigger" data-position="left" data-delay="50" data-tooltip="Agregar registro gasolina">
+            <i class="large mdi-content-add"></i></a>
+        </div>
       </div>
     </div>
-
+    
+    <!-- modal form: alta rutas -->
+    <div class="modal" id="modal1">
+      <div class="modal-content">
+        <h3 class="center">Registro - Gasolina</h3>
+        <form class="col s12" id="form-id">
+          <div class="row">
+            <div class="input-field col s6">
+              <input name = "fecha" id="fecha" type="date" class="datepicker">
+              <label for="fecha">Fecha</label>
+            </div>
+            <div class="input-field col s12" id="selectOperador">
+              <select id="operador" class="selectO browser-default" name="operador">
+              </select>
+            </div>
+            <div class="input-field col s12" id="selectVehiculo">
+              <select id="vehiculo" class="selectV browser-default" name="vehiculo">
+              </select>
+            </div>
+            <div class="input-field col s6">
+              <input id="kilometraje" type="text" class="validate" name="kilometraje">
+              <label for="kilometraje">Kilometraje</label>
+            </div>
+            <div class="input-field col s6">
+              <input id="carga" type="text" class="validate" name="carga">
+              <label for="carga">Carga $</label>
+            </div>
+            <div class="input-field col s6">
+              <select class="browser-default" id="tipo">
+                <option value="" disabled selected>Tipo de Gasolina</option>
+                <option value="magna">Magna</option>
+                <option value="premium">Premium</option>
+                <option value="diesel">Diesel</option>
+              </select>
+            </div>
+            <div class="input-field col s6">
+              <select class="browser-default" id="formaPago">
+                <option value="" disabled selected>Forma de Pago</option>
+                <option value="tarjeta">Tarjeta</option>
+                <option value="holograma">Holograma</option>
+                <option value="vales">Vales</option>
+                <option value="efectivo">Efectivo</option>
+              </select>
+            </div>
+            <div class="input-field col s6">
+              <input id="combustible" type="text" class="validate" name="combustible">
+              <label for="combustible">Combustible $/L</label>
+            </div>
+            <div class="input-field col s6">
+              <input id="numTarjeta" type="text" class="validate" name="numTarjeta">
+              <label for="numTarjeta">No. Tarjeta/Holograma</label>
+            </div>
+            <div class="input-field col s6">
+              <input id="numTicket" type="text" class="validate" name="numTicket">
+              <label for="numTicket">No. Ticket</label>
+            </div>
+          </div>
+          <div class="modal-footer">
+              <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat" id="submit-id" onclick="agregarABase()">Submit</a>
+              <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  <!-- Termino del modal -->
 
     <script src="../js/jquery.min.js"></script>
     <script type="text/javascript" src="../js/materialize.min.js"></script>
@@ -48,6 +146,148 @@
         if (location)
           location.reload();
       });
+    </script>
+    <script>
+      var db;
+      window.onload = function() {
+        inicializarTabla(function() {
+          $("#gasolina").on("click","button",function() {
+          if($(this).hasClass('editar-fila')){
+            var fila = $(this).parent().parent();
+            var items = [null, null, null,null, null, null,null, null, null];
+            fila.children().each(function(index, el) {
+             if ($(this).data("modify") != "0") {
+                console.log($(this).html());
+                var txt = $(this).html();
+                $(this).html("<input value='"+txt+"'/>")
+              };
+            });
+            $(this).removeClass('editar-fila').addClass('green guardar-cambios');
+            $(this).children().removeClass('mdi-editor-mode-edit').addClass('mdi-content-save');
+          }
+          else if ($(this).hasClass('guardar-cambios')){
+            var fila = $(this).parent().parent();
+            fila.children().each(function(index, el) {
+              if ($(this).data("modify") != "0") {
+                  var newval = $(this).children().val();
+                  $(this).html(newval);
+              };
+            });	
+            $(this).removeClass('green guardar-cambios').addClass('editar-fila');
+            $(this).children().removeClass('mdi-content-save').addClass('mdi-editor-mode-edit');
+            var fila = $(this).parent().parent();
+            guardarCambios(fila);
+          }
+          else if($(this).hasClass('borrar-fila')) {
+				var fila = $(this).parent().parent();		
+				var ID = fila.attr('data-id');
+				db.transaction(function (tx) {
+				  tx.executeSql('DELETE FROM controlgasolina WHERE id=' + ID);
+        		});
+				fila.html("");
+          }
+        });
+        db.transaction(function (tx) {
+              tx.executeSql('SELECT * FROM empleados ORDER BY Nombre ASC', [], function (tx, results) {
+                var len = results.rows.length, i;
+                var html='<option value="" disabled selected>Operador</option>';
+                for (i = 0; i < len; i++) {
+                  html+='<option value="'+results.rows.item(i).Nombre+'">'+results.rows.item(i).Nombre+'</option>';
+                }
+                $('#selectOperador select').append(html);
+              });
+          });
+          db.transaction(function (tx) {
+              tx.executeSql('SELECT * FROM vehiculos', [], function (tx, results) {
+                var len = results.rows.length, i;
+                var html='<option value="" disabled selected>Vehiculo</option>';
+                for (i = 0; i < len; i++) {
+                  html+='<option value="'+results.rows.item(i).Nombre+'">'+results.rows.item(i).Nombre+'</option>';
+                }
+                $('#selectVehiculo select').append(html);
+              });
+          });
+      });
+    }
+      function inicializarTabla(callback) {
+        db = openDatabase('BAM', '1.0', 'database', 10 * 1024 * 1024);
+        db.transaction(function (tx) {
+            tx.executeSql('CREATE TABLE IF NOT EXISTS controlgasolina (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Fecha, Operador, Vehiculo, Kilometraje, Carga, Tipo, Formapago, Combustible, Numtarjeta, Numticket)');
+        });
+        db.transaction(function (tx) {
+          tx.executeSql('SELECT * FROM controlgasolina ORDER BY Lower(Fecha) ASC', [], function (tx, results) {
+            var len = results.rows.length, i;
+            var html='';
+            for (i = 0; i < len; i++) {
+              html+='<tr data-id="'+results.rows.item(i).id+'"><td>'+results.rows.item(i).Fecha+'</td><td>'+results.rows.item(i).Operador+'</td><td>';
+              html+=results.rows.item(i).Vehiculo+'</td><td>'+results.rows.item(i).Kilometraje+'</td><td>'+results.rows.item(i).Carga+'</td><td>'+results.rows.item(i).Tipo+'</td><td>'+results.rows.item(i).Formapago+'</td><td>'+results.rows.item(i).Combustible+'</td><td>'+results.rows.item(i).Numtarjeta+'</td><td>'+results.rows.item(i).Numticket+'</td>';
+              html+='<td data-modify="0"><button class="btn waves-effect waves-light center editar-fila"><i class="mdi-editor-mode-edit"></i></button></td>' + 
+                '<td data-modify="0"><button class="btn waves-effect waves-light center red borrar-fila"><i class="mdi-action-delete"></i></button></td></tr>';
+            }
+            $('#gasolina tbody').append(html);
+            callback();
+          });
+        });
+      }
+      function trim(value) {
+          var temp = value;
+          var obj = /^(\s*)([\W\w]*)(\b\s*$)/;
+          if (obj.test(temp)) { temp = temp.replace(obj, '$2');}
+          var obj = /  /g;
+          while (temp.match(obj)) { temp = temp.replace(obj, " ");}
+          return temp;
+      } 
+      $(window).ready(function() {
+        $('select').material_select();
+        $('.modal-trigger').leanModal({
+          dismissible: false
+        });
+        $('.datepicker').pickadate({
+        selectMonths: true, // Creates a dropdown to control month
+        selectYears: 50 // Creates a dropdown of 15 years to control year
+        });
+      });
+      function agregarABase(){
+        var form = document.getElementById("form-id");
+        var fecha = form.fecha.value;
+        var operador = trim(form.operador.value);
+        var vehiculo = trim(form.vehiculo.value);
+        var kilometraje = trim(form.kilometraje.value);
+        var carga = trim(form.carga.value);
+        var tipo = trim(form.tipo.value);
+        var formaPago = trim(form.formaPago.value);
+        var combustible = trim(form.combustible.value);
+        var numTarjeta = trim(form.numTarjeta.value);
+        var numTicket = trim(form.numTicket.value);
+        
+        if(fecha=="" || operador=="" || vehiculo=="" || kilometraje=="" || carga=="" || tipo=="" || formaPago=="" || combustible=="" || numTarjeta=="" || numTicket==""){
+            alert("Por favor llena todos los campos");
+            return false;
+        }
+        db.transaction(function (tx) {
+            tx.executeSql('INSERT INTO controlgasolina VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
+                    [fecha, operador, vehiculo, kilometraje, carga, tipo, formaPago, combustible, numTarjeta, numTicket]);
+        });
+      return true;
+    }
+      function guardarCambios(fila) {
+        fila = fila[0];
+        var fecha = fila.children[0].innerText;
+        var operador = fila.children[1].innerText;
+        var vehiculo = fila.children[2].innerText;
+        var kilometraje = fila.children[3].innerText;
+        var carga = fila.children[4].innerText;
+        var tipo = fila.children[5].innerText;
+        var formaPago = fila.children[6].innerText;
+        var combustible = fila.children[7].innerText;
+        var numTarjeta = fila.children[8].innerText;
+        var numTicket = fila.children[9].innerText;
+        var ID = fila.getAttribute("data-id");
+        db.transaction(function (tx) {
+            tx.executeSql('UPDATE controlgasolina SET Fecha=?, Operador=?, Vehiculo=?, Kilometraje=?, Carga=?, Tipo=?, Formapago=?, Combustible=?, Numtarjeta=?, Numticket=? WHERE id =?',
+                    [fecha, operador, vehiculo, kilometraje, carga, tipo, formaPago, combustible, numTarjeta, numTicket, parseInt(ID)]);
+        });
+      }
     </script>
   </body>
 </html>

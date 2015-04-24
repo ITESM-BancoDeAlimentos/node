@@ -174,29 +174,16 @@
             $(this).removeClass('green guardar-cambios').addClass('editar-fila');
             $(this).children().removeClass('mdi-content-save').addClass('mdi-editor-mode-edit');
             var fila = $(this).parent().parent();
-            guardarCambios(fila);
-            location.reload();
+            guardarCambios(fila,function() { location.reload();});
           }
-
-          else if($(this).hasClass('borrar-fila')){
-
-				var fila = $(this).parent().parent();
-				
+          else if($(this).hasClass('borrar-fila')) {
+				var fila = $(this).parent().parent();		
 				var ID = fila.attr('data-id');
-
 				db.transaction(function (tx) {
-
-
-					tx.executeSql('DELETE FROM visitas WHERE id=' + ID);
-
+				  tx.executeSql('DELETE FROM visitas WHERE id=' + ID);
         		});
-
 				fila.html("");
-
-
-			}
-
-
+            }
           });
           db.transaction(function (tx) {
               tx.executeSql('SELECT DISTINCT Nombre FROM visitas ORDER BY Nombre ASC', [], function (tx, results) {
@@ -384,16 +371,18 @@
         location.reload();
           return true;
       }
-      function guardarCambios(fila) {
+      function guardarCambios(fila, callback) {
         fila = fila[0];
         var ruta = fila.children[0].innerText;
         var tienda = fila.children[1].innerText;
         var freq = fila.children[2].innerText;
         var ID = fila.getAttribute("data-id");
         db.transaction(function (tx) {
-            tx.executeSql('UPDATE visitas SET Nombre =?, TiendaSucursal=?, TipoVisita=? WHERE id =?',
+          tx.executeSql('UPDATE visitas SET Nombre =?, TiendaSucursal=?, TipoVisita=? WHERE id =?',
                     [ruta, tienda, freq, parseInt(ID)]);
+          callback();
         });
+        return true;
       }
     </script>
   </body>
