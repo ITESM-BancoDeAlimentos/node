@@ -203,7 +203,8 @@
                   results.rows.item(i).NumHolograma + '</td><td>' +
                   results.rows.item(i).NumSerie + '</td><td>' +
                   results.rows.item(i).Estatus + '</td>' +
-                  '<td data-modify="0"><button class="btn waves-effect waves-light center editar-fila"><i class="mdi-editor-mode-edit"></i></button></td></tr>';
+                  '<td data-modify="0"><button class="btn waves-effect waves-light center editar-fila"><i class="mdi-editor-mode-edit"></i></button></td>' + 
+                  '<td><button class="btn waves-effect waves-light center red borrar-fila"><i class="mdi-action-delete"></i></button></td></tr>';
 				}
 				$("#vehiculos tbody").append(html);
           	});
@@ -229,7 +230,7 @@
 				$(this).removeClass('editar-fila').addClass('green guardar-cambios');
 				$(this).children().removeClass('mdi-editor-mode-edit').addClass('mdi-content-save');
 			}
-			else {
+			else if ($(this).hasClass('guardar-cambios')){
 				var fila = $(this).parent().parent();
 	          	fila.children().each(function(index, el) {
 	          		if ($(this).data("modify") != "0") {
@@ -241,6 +242,27 @@
 				$(this).children().removeClass('mdi-content-save').addClass('mdi-editor-mode-edit');
               var fila =$(this).parent().parent();
               guardarCambios(fila);
+			}
+			else if($(this).hasClass('borrar-fila')){
+
+				var fila = $(this).parent().parent();
+				
+				var ID = fila.attr('data-id');
+
+
+				// var ID = fila.getAttribute("data-id");
+
+
+				db.transaction(function (tx) {
+
+
+					tx.executeSql('DELETE FROM vehiculos WHERE id=' + ID);
+
+        		});
+
+				fila.html("");
+
+
 			}
   		});
 	});
