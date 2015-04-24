@@ -157,7 +157,7 @@
             var html='';
             for (i = 0; i < len; i++) {
               //fill the table
-              html+='<tr data-id="'+(i+1)+'"><td>'+results.rows.item(i).Nombre+'</td><td>'+results.rows.item(i).Direccion+'</td><td>';
+              html+='<tr data-id="'+results.rows.item(i).id+'"><td>'+results.rows.item(i).Nombre+'</td><td>'+results.rows.item(i).Direccion+'</td><td>';
               html+=results.rows.item(i).Telefono+'</td><td>'+results.rows.item(i).Area+'</td><td>';
               html+=results.rows.item(i).FechaNacimiento+'</td><td>'+results.rows.item(i).FechaContratacion+'</td>';
               html+='<td data-modify="0"><button class="btn waves-effect waves-light center editar-fila"><i class="mdi-editor-mode-edit"></i></button></td></tr>';

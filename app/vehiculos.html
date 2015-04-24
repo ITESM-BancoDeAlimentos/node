@@ -57,6 +57,7 @@
               </tr>
               </thead>
               <tbody>
+<!--
               <tr>
                   <td>Carro1?</td>
                   <td>Ford</td>
@@ -72,6 +73,7 @@
                   <td>Si</td>
                   <td data-modify="0"><button class="btn waves-effect waves-light center editar-fila"><i class="mdi-editor-mode-edit"></i></button></td>
               </tr>
+-->
               </tbody>
       </table>
           <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
@@ -85,7 +87,7 @@
     <div class="modal" id="modal1">
       <div class="modal-content">
         <h3 class="center">Registrar un vehículo nuevo</h3>
-        <form class="col s12">
+        <form class="col s12" id="form-id">
           <div class="row">
             <div class="input-field col s6">
               <input id="nombre" type="text" class="validate">
@@ -116,7 +118,7 @@
               <label for="donante">Donante</label>
             </div>
             <div class="input-field col s6">
-              <select>
+              <select id="gasolina">
                 <option value="" disabled selected>Tipo de Combustible</option>
                 <option value="magna">Magna</option>
                 <option value="premium">Premium</option>
@@ -137,7 +139,7 @@
               <label for="numserie">Número de Serie</label>
             </div>
             <div class="input-field col s6">
-              <select>
+              <select id="disponible">
                 <option value="" disabled selected>Disponibilidad</option>
                 <option value="si">Si</option>
                 <option value="no">No</option>
@@ -148,7 +150,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Submit</a>
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat" id="submit-id" onclick="agregarABase()">Submit</a>
         <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
       </div>
     </div>
@@ -170,8 +172,6 @@
 
     <script>
       window.onload = function() {
-
-
       	db = openDatabase('BAM', '1.0', 'database', 10 * 1024 * 1024);
       	db.transaction(function (tx) {
               tx.executeSql('CREATE TABLE IF NOT EXISTS vehiculos (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Nombre, Marca, Modelo, Descripcion, Placas, Clasificacion, Donante, Combustible, NumTarjeta, NumHolograma, NumSerie, Estatus)');
@@ -187,124 +187,119 @@
       	db.transaction(function (tx) {
           	tx.executeSql('SELECT * FROM vehiculos', [], function (tx, results) {
               	var len = results.rows.length, i;
-
               	$('#vehiculos tbody').html("");
               	var html='';
               	for (i = 0; i < len; i++) {
-
-              		html+='<tr><td>'+
-              		results.rows.item(i).Nombre + '</td><td>' +
-					results.rows.item(i).Marca + '</td><td>' +
-					results.rows.item(i).Modelo + '</td><td>' +
-					results.rows.item(i).Descripcion + '</td><td>' +
-					results.rows.item(i).Placas + '</td><td>' +
-					results.rows.item(i).Clasificacion + '</td><td>' +
-					results.rows.item(i).Donante + '</td><td>' +
-					results.rows.item(i).Combustible + '</td><td>' +
-					results.rows.item(i).NumTarjeta + '</td><td>' +
-					results.rows.item(i).NumHolograma + '</td><td>' +
-					results.rows.item(i).NumSerie + '</td><td>' +
-					results.rows.item(i).Estatus + '</td>' +
-              		'<td data-modify="0"><button class="btn waves-effect waves-light center editar-fila"><i class="mdi-editor-mode-edit"></i></button></td></tr>';
+                  html+='<tr data-id="'+results.rows.item(i).id+'"><td>'+
+                  results.rows.item(i).Nombre + '</td><td>' +
+                  results.rows.item(i).Marca + '</td><td>' +
+                  results.rows.item(i).Modelo + '</td><td>' +
+                  results.rows.item(i).Descripcion + '</td><td>' +
+                  results.rows.item(i).Placas + '</td><td>' +
+                  results.rows.item(i).Clasificacion + '</td><td>' +
+                  results.rows.item(i).Donante + '</td><td>' +
+                  results.rows.item(i).Combustible + '</td><td>' +
+                  results.rows.item(i).NumTarjeta + '</td><td>' +
+                  results.rows.item(i).NumHolograma + '</td><td>' +
+                  results.rows.item(i).NumSerie + '</td><td>' +
+                  results.rows.item(i).Estatus + '</td>' +
+                  '<td data-modify="0"><button class="btn waves-effect waves-light center editar-fila"><i class="mdi-editor-mode-edit"></i></button></td></tr>';
 				}
-
-				$("#vehiculos tbody").html(html);
-
+				$("#vehiculos tbody").append(html);
           	});
       	});
-
       }
-
   	$(document).ready(function() {
-  		  $('select').material_select();
+        $('select').material_select();
       	$('.modal-trigger').leanModal({
         	dismissible: false
         });
-
-
       	$("#vehiculos").on("click","button",function() {
-
-      		alert("aaa");
-
       		if($(this).hasClass('editar-fila')){
-
-
 	          	var fila = $(this).parent().parent();
-
-
 	          	var items = [null, null, null, null, null, null, null, null, null, null, null, null];
 
-
-
-
 	          	fila.children().each(function(index, el) {
-
-
 	          		if ($(this).data("modify") != "0") {
-
-
 	          			console.log($(this).html());
-
 	          			var txt = $(this).html();
 	          			$(this).html("<input value='"+txt+"'/>")
-
 	          		};
-
-
 	          	});
-
-
 				$(this).removeClass('editar-fila').addClass('green guardar-cambios');
 				$(this).children().removeClass('mdi-editor-mode-edit').addClass('mdi-content-save');
 			}
-
 			else {
-
 				var fila = $(this).parent().parent();
-
 	          	fila.children().each(function(index, el) {
-
 	          		if ($(this).data("modify") != "0") {
-
 	          			var newval = $(this).children().val();
-
 	          			$(this).html(newval);
-
-
 	          		};
-
 	          	});
-
-
 	          	$(this).removeClass('green guardar-cambios').addClass('editar-fila');
 				$(this).children().removeClass('mdi-content-save').addClass('mdi-editor-mode-edit');
-
-
+              var fila =$(this).parent().parent();
+              guardarCambios(fila);
 			}
-
-
   		});
-
-
-
-
-
 	});
+    function trim(value) {
+        var temp = value;
+        var obj = /^(\s*)([\W\w]*)(\b\s*$)/;
+        if (obj.test(temp)) { temp = temp.replace(obj, '$2');}
+        var obj = /  /g;
+        while (temp.match(obj)) { temp = temp.replace(obj, " ");}
+        return temp;
+      }
+    function agregarABase(){
+      var form = document.getElementById("form-id");
+      var nombre = trim(form.nombre.value);
+      var marca = trim(form.marca.value);
+      var modelo = trim(form.modelo.value);
+      var descripcion = trim(form.descripcion.value);
+      var placas = trim(form.placas.value);
+      var clasificacion = trim(form.clasificacion.value);
+      var donante = trim(form.donante.value);
+      var gasolina = trim(form.gasolina.value);
+      var numTarjeta = trim(form.numtarjeta.value);
+      var numHolograma = trim(form.numholograma.value);
+      var numSerie = trim(form.numserie.value);
+      var disponible = trim(form.disponible.value);
+      
+      if(nombre == "" || marca=="" || modelo=="" || descripcion=="" || placas=="" || clasificacion=="" || donante=="" || gasolina=="" || numTarjeta=="" || numHolograma=="" || numSerie=="" || disponible==""){
+          alert("Por favor llena todos los campos");
+          return false;
+      }
+      db.transaction(function (tx) {
+          tx.executeSql('INSERT INTO vehiculos VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
+                  [nombre, marca, modelo, descripcion, placas, clasificacion, donante, gasolina, numTarjeta, numHolograma, numSerie, disponible]);
+      });
+      return true;
+    }
 
 
-
-      // function guardarCambios(obj, valorRuta, valorTienda, valorFrecuencia) {
-      //   var fila = obj.parentNode.parentNode;
-      //   var ruta = fila.children[0];
-      //   var tienda = fila.children[1];
-      //   var freq = fila.children[2];
-      //   ruta.replaceChild(document.createTextNode(valorRuta), ruta.firstChild);
-      //   tienda.replaceChild(document.createTextNode(valorTienda), tienda.firstChild);
-      //   freq.replaceChild(document.createTextNode(valorFrecuencia), freq.firstChild);
-      //   obj.className = "btn waves-effect waves-light center";
-      //   obj.firstChild.className = "mdi-editor-mode-edit";
-      //   obj.onclick=function() {editar(this)};
-      // }
+       function guardarCambios(fila) {
+         fila = fila[0];
+         var nombre = fila.children[0].innerText;
+         var marca = fila.children[1].innerText;
+        var modelo = fila.children[2].innerText;
+        var descripcion = fila.children[3].innerText;
+        var placas = fila.children[4].innerText;
+        var clasificacion = fila.children[5].innerText;
+        var donante = fila.children[6].innerText;
+        var gasolina = fila.children[7].innerText;
+        var numTarjeta = fila.children[8].innerText;
+        var numHolograma = fila.children[9].innerText;
+        var numSerie = fila.children[10].innerText;
+        var disponible = fila.children[11].innerText;
+         var ID = fila.getAttribute("data-id");
+         db.transaction(function (tx) {
+            tx.executeSql('UPDATE vehiculos SET Nombre =?, Marca=?, Modelo=?, Descripcion=?, Placas=?, Clasificacion=?, Donante=?, Combustible=?, NumTarjeta=?, NumHolograma=?, NumSerie=?, Estatus=? WHERE id =?',
+            [nombre, marca, modelo, descripcion, placas, clasificacion, donante, gasolina, numTarjeta, numHolograma, numSerie, disponible, parseInt(ID)]);
+        });
+         
+       }
 
 
 
