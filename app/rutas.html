@@ -138,12 +138,11 @@
                 var html='';
                 for (i = 0; i < len; i++) {
                     //fill the table
-                    alert(results.rows.item(i).Nombre);
-                    html+='<tr><td>'+results.rows.item(i).Nombre+'</td><td>'+results.rows.item(i).TiendaSucursal+'</td><td>';
+                    html+='<tr data-id="'+(i+1)+'"><td>'+results.rows.item(i).Nombre+'</td><td>'+results.rows.item(i).TiendaSucursal+'</td><td>';
                     html+=results.rows.item(i).TipoVisita+'</td>';
                     html+='<td><button class="btn waves-effect waves-light center" onclick="editar(this)"><i class="mdi-editor-mode-edit"></i></button></td></tr>';
                 }
-                $('#calendario tbody').first().after(html);
+                $('#calendario tbody').append(html);
                 callback();
               });
           });
@@ -332,6 +331,12 @@
         ruta.replaceChild(document.createTextNode(valorRuta), ruta.firstChild);
         tienda.replaceChild(document.createTextNode(valorTienda), tienda.firstChild);
         freq.replaceChild(document.createTextNode(valorFrecuencia), freq.firstChild);
+
+          var ID = obj.parentNode.parentNode.getAttribute("data-id");
+          db.transaction(function (tx) {
+              tx.executeSql('UPDATE visitas SET Nombre =?, TiendaSucursal=?, TipoVisita=? WHERE id =?',
+                      [valorRuta, valorTienda, valorFrecuencia, parseInt(ID)]);
+          });
         obj.className = "btn waves-effect waves-light center";
         obj.firstChild.className = "mdi-editor-mode-edit";
         obj.onclick=function() {editar(this)};
