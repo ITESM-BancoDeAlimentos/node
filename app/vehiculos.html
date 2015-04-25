@@ -209,7 +209,8 @@
 	          		if ($(this).data("modify") != "0") {
 	          			console.log($(this).html());
 	          			var txt = $(this).html();
-	          			$(this).html("<input value='"+txt+"'/>")
+	          			var width = txt.length + 2;
+                        $(this).html("<input value='"+txt+"' size='"+width+"'/>");
 	          		};
 	          	});
 				$(this).removeClass('editar-fila').addClass('green guardar-cambios');
@@ -229,21 +230,14 @@
               guardarCambios(fila);
 			}
 			else if($(this).hasClass('borrar-fila')){
-
+              if(confirm("¿Estas seguro que quieres borrar este registro?") == true) {
 				var fila = $(this).parent().parent();
-				
 				var ID = fila.attr('data-id');
-
 				db.transaction(function (tx) {
-
-
 					tx.executeSql('DELETE FROM vehiculos WHERE id=' + ID);
-
         		});
-
 				fila.html("");
-
-
+              }
 			}
   		});
 	});
