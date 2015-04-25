@@ -36,7 +36,7 @@
       <div class="col s10 offset-s2">
         <nav>
           <div class="nav-wrapper teal">
-            <a href="#" class="brand-logo center">Gasolina</a>
+            <a href="#" class="brand-logo center">Mantenimientos</a>
             <ul id="nav-mobile" class="left hide-on-med-and-down">
               <li><a href="./vehiculos.html">Control</a></li>
               <li><a href="./vehiculos-gasolina.html">Gasolina</a></li>
@@ -44,19 +44,16 @@
             </ul>
           </div>
         </nav>
-        <table class="hoverable" id="gasolina">
+        <table class="hoverable" id="mantenimiento">
           <thead>
             <tr>
                 <th data-field="fecha">Fecha</th>
-                <th data-field="operador">Operador</th>
                 <th data-field="vehiculo">Vehiculo</th>
-                <th data-field="kilometraje">Kilometraje</th>
-                <th data-field="carga">Carga $</th>
-                <th data-field="combustible">Tipo de Combustible</th>
-                <th data-field="formaDePago">Forma de Pago</th>
-                <th data-field="precioLitro">Combustible $</th>
-                <th data-field="numTH">No. Tarjeta/Holograma</th>
-                <th data-field="numTicket">No. Ticket</th>
+                <th data-field="mantenimiento">Mantenimiento</th>
+                <th data-field="costo">Costo $</th>
+                <th data-field="taller">Taller</th>
+                <th data-field="comentarios">Comentarios</th>
+                <th data-field="kilometrajeActual">Kilometraje Actual</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -65,7 +62,7 @@
           </tbody>
         </table>
         <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-          <a href="#modal1" class="btn-floating btn-large teal tooltipped modal-trigger" data-position="left" data-delay="50" data-tooltip="Agregar registro gasolina">
+          <a href="#modal1" class="btn-floating btn-large teal tooltipped modal-trigger" data-position="left" data-delay="50" data-tooltip="Agregar registro mantenimiento">
             <i class="large mdi-content-add"></i></a>
         </div>
       </div>
@@ -74,57 +71,45 @@
     <!-- modal form: alta rutas -->
     <div class="modal" id="modal1">
       <div class="modal-content">
-        <h3 class="center">Registro - Gasolina</h3>
+        <h3 class="center">Registro - Mantenimiento</h3>
         <form class="col s12" id="form-id">
           <div class="row">
             <div class="input-field col s6">
               <input name = "fecha" id="fecha" type="date" class="datepicker">
               <label for="fecha">Fecha</label>
             </div>
-            <div class="input-field col s12" id="selectOperador">
-              <select id="operador" class="selectO browser-default" name="operador">
-              </select>
-            </div>
             <div class="input-field col s12" id="selectVehiculo">
               <select id="vehiculo" class="selectV browser-default" name="vehiculo">
               </select>
             </div>
             <div class="input-field col s6">
-              <input id="kilometraje" type="text" class="validate" name="kilometraje">
-              <label for="kilometraje">Kilometraje</label>
-            </div>
-            <div class="input-field col s6">
-              <input id="carga" type="text" class="validate" name="carga">
-              <label for="carga">Carga $</label>
-            </div>
-            <div class="input-field col s6">
               <select class="browser-default" id="tipo">
-                <option value="" disabled selected>Tipo de Gasolina</option>
-                <option value="magna">Magna</option>
-                <option value="premium">Premium</option>
-                <option value="diesel">Diesel</option>
+                <option value="" disabled selected>Tipo de Mantenimiento</option>
+                <option value="Reparacion de motor">Reparacion de motor</option>
+                <option value="Cambio de aceite">Cambio de aceite</option>
+                <option value="Afinación">Afinación</option>
+                <option value="Cambio de llantas">Cambio de llantas</option>
+                <option value="Enderezado y pintura">Enderezado y pintura</option>
               </select>
             </div>
             <div class="input-field col s6">
-              <select class="browser-default" id="formaPago">
-                <option value="" disabled selected>Forma de Pago</option>
-                <option value="tarjeta">Tarjeta</option>
-                <option value="holograma">Holograma</option>
-                <option value="vales">Vales</option>
-                <option value="efectivo">Efectivo</option>
+              <input id="costo" type="text" class="validate" name="costo">
+              <label for="costo">Costo $</label>
+            </div>
+            <div class="input-field col s6">
+              <select class="browser-default" id="taller">
+                <option value="" disabled selected>Taller</option>
+                <option value="Taller 1">Taller 1</option>
+                <option value="Taller 2">Taller 2</option>
               </select>
             </div>
-            <div class="input-field col s6">
-              <input id="combustible" type="text" class="validate" name="combustible">
-              <label for="combustible">Combustible $/L</label>
+            <div class="input-field col s12">
+              <textarea id="comentarios" class="materialize-textarea"></textarea>
+              <label for="comentarios">Comentarios</label>
             </div>
             <div class="input-field col s6">
-              <input id="numTarjeta" type="text" class="validate" name="numTarjeta">
-              <label for="numTarjeta">No. Tarjeta/Holograma</label>
-            </div>
-            <div class="input-field col s6">
-              <input id="numTicket" type="text" class="validate" name="numTicket">
-              <label for="numTicket">No. Ticket</label>
+              <input id="kilometraje" type="text" class="validate" name="kilometraje">
+              <label for="kilometraje">Kilometraje Actual</label>
             </div>
           </div>
           <div class="modal-footer">
@@ -152,10 +137,10 @@
       var db;
       window.onload = function() {
         inicializarTabla(function() {
-          $("#gasolina").on("click","button",function() {
+          $("#mantenimiento").on("click","button",function() {
           if($(this).hasClass('editar-fila')){
             var fila = $(this).parent().parent();
-            var items = [null, null, null,null, null, null,null, null, null];
+            var items = [null, null, null,null, null, null,null];
             fila.children().each(function(index, el) {
              if ($(this).data("modify") != "0") {
                 console.log($(this).html());
@@ -180,12 +165,14 @@
             guardarCambios(fila);
           }
           else if($(this).hasClass('borrar-fila')) {
+            if(confirm("¿Estas seguro que quieres borrar este registro?") == true) {
 				var fila = $(this).parent().parent();		
 				var ID = fila.attr('data-id');
 				db.transaction(function (tx) {
-				  tx.executeSql('DELETE FROM controlgasolina WHERE id=' + ID);
+				  tx.executeSql('DELETE FROM controlmantenimiento WHERE id=' + ID);
         		});
 				fila.html("");
+            }
           }
         });
         db.transaction(function (tx) {
@@ -213,19 +200,19 @@
       function inicializarTabla(callback) {
         db = openDatabase('BAM', '1.0', 'database', 10 * 1024 * 1024);
         db.transaction(function (tx) {
-            tx.executeSql('CREATE TABLE IF NOT EXISTS controlgasolina (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Fecha, Operador, Vehiculo, Kilometraje, Carga, Tipo, Formapago, Combustible, Numtarjeta, Numticket)');
+            tx.executeSql('CREATE TABLE IF NOT EXISTS controlmantenimiento (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Fecha, Vehiculo, Mantenimiento, Costo, Taller, Comentarios, Kilometrajeactual)');
         });
         db.transaction(function (tx) {
-          tx.executeSql('SELECT * FROM controlgasolina ORDER BY Lower(Fecha) ASC', [], function (tx, results) {
+          tx.executeSql('SELECT * FROM controlmantenimiento ORDER BY Lower(Fecha) ASC', [], function (tx, results) {
             var len = results.rows.length, i;
             var html='';
             for (i = 0; i < len; i++) {
-              html+='<tr data-id="'+results.rows.item(i).id+'"><td>'+results.rows.item(i).Fecha+'</td><td>'+results.rows.item(i).Operador+'</td><td>';
-              html+=results.rows.item(i).Vehiculo+'</td><td>'+results.rows.item(i).Kilometraje+'</td><td>'+results.rows.item(i).Carga+'</td><td>'+results.rows.item(i).Tipo+'</td><td>'+results.rows.item(i).Formapago+'</td><td>'+results.rows.item(i).Combustible+'</td><td>'+results.rows.item(i).Numtarjeta+'</td><td>'+results.rows.item(i).Numticket+'</td>';
+              html+='<tr data-id="'+results.rows.item(i).id+'"><td>'+results.rows.item(i).Fecha+'</td><td>'+results.rows.item(i).Vehiculo+'</td><td>';
+              html+=results.rows.item(i).Mantenimiento+'</td><td>'+results.rows.item(i).Costo+'</td><td>'+results.rows.item(i).Taller+'</td><td>'+results.rows.item(i).Comentarios+'</td><td>'+results.rows.item(i).Kilometrajeactual+'</td>';
               html+='<td data-modify="0"><button class="btn waves-effect waves-light center editar-fila"><i class="mdi-editor-mode-edit"></i></button></td>' + 
                 '<td data-modify="0"><button class="btn waves-effect waves-light center red borrar-fila"><i class="mdi-action-delete"></i></button></td></tr>';
             }
-            $('#gasolina tbody').append(html);
+            $('#mantenimiento tbody').append(html);
             callback();
           });
         });
@@ -251,42 +238,38 @@
       function agregarABase(){
         var form = document.getElementById("form-id");
         var fecha = form.fecha.value;
-        var operador = trim(form.operador.value);
         var vehiculo = trim(form.vehiculo.value);
+        var mantenimiento = trim(form.tipo.value);
+        var costo = trim(form.costo.value);
+        var taller = trim(form.taller.value);
+        var comentarios = trim(form.comentarios.value);
         var kilometraje = trim(form.kilometraje.value);
-        var carga = trim(form.carga.value);
-        var tipo = trim(form.tipo.value);
-        var formaPago = trim(form.formaPago.value);
-        var combustible = trim(form.combustible.value);
-        var numTarjeta = trim(form.numTarjeta.value);
-        var numTicket = trim(form.numTicket.value);
         
-        if(fecha=="" || operador=="" || vehiculo=="" || kilometraje=="" || carga=="" || tipo=="" || formaPago=="" || combustible=="" || numTarjeta=="" || numTicket==""){
+        
+        if(fecha=="" || vehiculo=="" || kilometraje=="" || costo=="" || mantenimiento=="" || taller=="" || comentarios==""){
             alert("Por favor llena todos los campos");
             return false;
         }
         db.transaction(function (tx) {
-            tx.executeSql('INSERT INTO controlgasolina VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
-                    [fecha, operador, vehiculo, kilometraje, carga, tipo, formaPago, combustible, numTarjeta, numTicket]);
+            tx.executeSql('INSERT INTO controlmantenimiento VALUES (NULL, ?, ?, ?, ?, ?, ?, ?);',
+                    [fecha, vehiculo, mantenimiento, costo, taller, comentarios, kilometraje]);
         });
+        location.reload();
       return true;
     }
       function guardarCambios(fila) {
         fila = fila[0];
         var fecha = fila.children[0].innerText;
-        var operador = fila.children[1].innerText;
-        var vehiculo = fila.children[2].innerText;
-        var kilometraje = fila.children[3].innerText;
-        var carga = fila.children[4].innerText;
-        var tipo = fila.children[5].innerText;
-        var formaPago = fila.children[6].innerText;
-        var combustible = fila.children[7].innerText;
-        var numTarjeta = fila.children[8].innerText;
-        var numTicket = fila.children[9].innerText;
+        var vehiculo = fila.children[1].innerText;
+        var mantenimiento = fila.children[2].innerText;
+        var costo = fila.children[3].innerText;
+        var taller = fila.children[4].innerText;
+        var comentarios = fila.children[5].innerText;
+        var kilometraje = fila.children[6].innerText;
         var ID = fila.getAttribute("data-id");
         db.transaction(function (tx) {
-            tx.executeSql('UPDATE controlgasolina SET Fecha=?, Operador=?, Vehiculo=?, Kilometraje=?, Carga=?, Tipo=?, Formapago=?, Combustible=?, Numtarjeta=?, Numticket=? WHERE id =?',
-                    [fecha, operador, vehiculo, kilometraje, carga, tipo, formaPago, combustible, numTarjeta, numTicket, parseInt(ID)]);
+            tx.executeSql('UPDATE controlmantenimiento SET Fecha=?, Vehiculo=?, Mantenimiento=?, Costo=?, Taller=?, Comentarios=?, Kilometrajeactual=? WHERE id =?',
+                    [fecha, vehiculo, mantenimiento, costo, taller, comentarios, kilometraje, parseInt(ID)]);
         });
       }
     </script>
