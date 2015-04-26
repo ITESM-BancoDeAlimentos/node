@@ -34,6 +34,10 @@
             <a href="#" class="brand-logo center">Control - Diario</a>
           </div>
         </nav>
+        <div class="input-field col s12" id="selectFecha">
+          <select id="fecha" class="browser-default" name="fecha">
+          </select>
+        </div>
         <table class="hoverable" id="calendario">
           <thead>
             <tr>
@@ -220,6 +224,10 @@
             }
           }
         });
+        $("#selectFecha").on("change", function() {
+          var value = $("#selectFecha option:selected").text();
+          filtrarTabla(value);
+        });
         db.transaction(function (tx) {
               tx.executeSql('SELECT * FROM empleados ORDER BY Nombre ASC', [], function (tx, results) {
                 var len = results.rows.length, i;
@@ -250,6 +258,16 @@
                 $('#selectVehiculo select').append(html);
               });
           });
+          db.transaction(function (tx) {
+              tx.executeSql('SELECT DISTINCT Fecha FROM controldiario', [], function (tx, results) {
+                var len = results.rows.length, i;
+                var html='<option value="" disabled selected>Fecha</option>';
+                for (i = 0; i < len; i++) {
+                  html+='<option value="'+results.rows.item(i).Fecha+'">'+results.rows.item(i).Fecha+'</option>';
+                }
+                $('#selectFecha select').append(html);
+              });
+          });
       });
     }
       function inicializarTabla(callback) {
@@ -269,6 +287,20 @@
             }
             $('#calendario tbody').append(html);
             callback();
+          });
+        });
+      }
+      function filtrarTabla(value) {
+        db.transaction(function (tx) {
+          tx.executeSql('SELECT * FROM controldiario WHERE Fecha=?', [value], function (tx, results) {
+            var len = results.rows.length, i;
+            var html='';
+            for (i = 0; i < len; i++) {
+              html+='<tr data-id="'+results.rows.item(i).id+'"><td>'+results.rows.item(i).Ruta+'</td><td>'+results.rows.item(i).Fecha+'</td><td>';
+              html+=results.rows.item(i).Operador+'</td><td>'+results.rows.item(i).Copiloto+'</td><td>'+results.rows.item(i).Vehiculo+'</td><td>'+results.rows.item(i).Hrsalida+'</td><td>'+results.rows.item(i).Hrllegada+'</td><td>'+results.rows.item(i).Tienda+'</td><td>'+results.rows.item(i).Tiempotienda+'</td><td>'+results.rows.item(i).Comentario+'</td>';
+              html+='<td data-modify="0"><button class="btn waves-effect waves-light center editar-fila"><i class="mdi-editor-mode-edit"></i></button></td>' + 
+                '<td data-modify="0"><button class="btn waves-effect waves-light center red borrar-fila"><i class="mdi-action-delete"></i></button></td></tr>';
+            }
           });
         });
       }
