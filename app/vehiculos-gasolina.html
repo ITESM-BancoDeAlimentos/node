@@ -86,7 +86,7 @@
               </select>
             </div>
             <div class="input-field col s12" id="selectVehiculo">
-              <select id="vehiculo" class="selectV browser-default" name="vehiculo">
+              <select id="vehiculo" class="browser-default" name="vehiculo">
               </select>
             </div>
             <div class="input-field col s6">
@@ -160,7 +160,11 @@
              if ($(this).data("modify") != "0") {
                 console.log($(this).html());
                 var txt = $(this).html();
+               if(txt == " ") {
+                var width = 5;
+               } else {
                 var width = txt.length + 2;
+               }
                 $(this).html("<input value='"+txt+"' size='"+width+"'/>");
               };
             });

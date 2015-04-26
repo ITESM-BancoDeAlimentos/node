@@ -157,7 +157,11 @@
              if ($(this).data("modify") != "0" && index < 3) {
                 console.log($(this).html());
                 var txt = $(this).html();
+               if(txt == " ") {
+                var width = 5;
+               } else {
                 var width = txt.length + 2;
+               }
                 $(this).html("<input value='"+txt+"' size='"+width+"'/>");
               };
             });

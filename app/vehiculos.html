@@ -72,12 +72,6 @@
         <h3 class="center">Registrar un vehículo nuevo</h3>
         <form class="col s12" id="form-id">
           <div class="row">
-<!--
-            <div class="input-field col s6">
-              <input id="nombre" type="text" class="validate">
-              <label for="nombre">Nombre</label>
-            </div>
--->
             <div class="input-field col s6">
               <input id="marca" type="text" class="validate">
               <label for="marca">Marca</label>
@@ -160,15 +154,6 @@
       	db = openDatabase('BAM', '1.0', 'database', 10 * 1024 * 1024);
       	db.transaction(function (tx) {
               tx.executeSql('CREATE TABLE IF NOT EXISTS vehiculos (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Nombre, Marca, Modelo, Descripcion, Placas, Clasificacion, Donante, Combustible, NumTarjeta, NumHolograma, NumSerie, Estatus)');
-
-              // tx.executeSql('INSERT INTO vehiculos (Nombre, Marca, Modelo, Descripcion, Placas, Clasificacion, Donante, Combustible, NumTarjeta, NumHolograma, NumSerie, Estatus) ' +
-              // 'VALUES ("Carro1?", "Ford", "2008", "Ranger", "RE 78-067", "Carga Ligera", "Caritas", "Magna", "126002", "12120002", "ABCDEFGHIJK8", "Si")');
-
-
-              // tx.executeSql('INSERT INTO vehiculos (Nombre, Marca, Modelo, Descripcion, Placas, Clasificacion, Donante, Combustible, NumTarjeta, NumHolograma, NumSerie, Estatus) ' +
-              // 'VALUES ("carro2", "Ford", "2008", "Ranger", "RE 78-067", "Carga Ligera", "Caritas", "Magna", "126002", "12120002", "ABCDEFGHIJK8", "Si")');
-          });
-
       	db.transaction(function (tx) {
           	tx.executeSql('SELECT * FROM vehiculos ORDER BY Lower(Nombre) ASC', [], function (tx, results) {
               	var len = results.rows.length, i;
@@ -209,8 +194,12 @@
 	          		if ($(this).data("modify") != "0") {
 	          			console.log($(this).html());
 	          			var txt = $(this).html();
-	          			var width = txt.length + 2;
-                        $(this).html("<input value='"+txt+"' size='"+width+"'/>");
+               if(txt == " ") {
+                var width = 5;
+               } else {
+                var width = txt.length + 2;
+               }
+                $(this).html("<input value='"+txt+"' size='"+width+"'/>");
 	          		};
 	          	});
 				$(this).removeClass('editar-fila').addClass('green guardar-cambios');
@@ -275,37 +264,26 @@
       location.reload();
       return true;
     }
-
-
        function guardarCambios(fila) {
-         fila = fila[0];
-         var nombre = fila.children[0].innerText;
-         var marca = fila.children[1].innerText;
-        var modelo = fila.children[2].innerText;
-        var descripcion = fila.children[3].innerText;
-        var placas = fila.children[4].innerText;
-        var clasificacion = fila.children[5].innerText;
-        var donante = fila.children[6].innerText;
-        var gasolina = fila.children[7].innerText;
-        var numTarjeta = fila.children[8].innerText;
-        var numHolograma = fila.children[9].innerText;
-        var numSerie = fila.children[10].innerText;
-        var disponible = fila.children[11].innerText;
-         var ID = fila.getAttribute("data-id");
-         db.transaction(function (tx) {
+          fila = fila[0];
+          var nombre = fila.children[0].innerText;
+          var marca = fila.children[1].innerText;
+          var modelo = fila.children[2].innerText;
+          var descripcion = fila.children[3].innerText;
+          var placas = fila.children[4].innerText;
+          var clasificacion = fila.children[5].innerText;
+          var donante = fila.children[6].innerText;
+          var gasolina = fila.children[7].innerText;
+          var numTarjeta = fila.children[8].innerText;
+          var numHolograma = fila.children[9].innerText;
+          var numSerie = fila.children[10].innerText;
+          var disponible = fila.children[11].innerText;
+          var ID = fila.getAttribute("data-id");
+          db.transaction(function (tx) {
             tx.executeSql('UPDATE vehiculos SET Nombre =?, Marca=?, Modelo=?, Descripcion=?, Placas=?, Clasificacion=?, Donante=?, Combustible=?, NumTarjeta=?, NumHolograma=?, NumSerie=?, Estatus=? WHERE id =?',
             [nombre, marca, modelo, descripcion, placas, clasificacion, donante, gasolina, numTarjeta, numHolograma, numSerie, disponible, parseInt(ID)]);
-        });
-         
+        }); 
        }
-
-
-
-
-
-
-
-
     </script>
 
   </body>
