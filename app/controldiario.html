@@ -13,7 +13,7 @@
             <img class="responsive-img" src="../img/logo.png"/>
           </div>
           <a href="./app.html" class="waves-effect waves-light btn black-text teal"><i class="mdi-action-dashboard left"></i>Dashboard</a>
-          <a href="./controldiario.html" class="waves-effect waves-light btn black-text teal"><i class="mdi-action-dashboard left"></i>Control - Diario</a>
+          <a href="./controldiario.html" class="waves-effect waves-light btn black-text teal"><i class="mdi-action-assignment left"></i>Control - Diario</a>
           <a href="./rutas.html" class="waves-effect waves-light btn black-text teal"><i class="mdi-maps-directions left"></i>Rutas</a>
           <a href="./choferes.html" class="waves-effect waves-light btn black-text teal"><i class="mdi-social-person left"></i>Choferes</a>
           <a href="./vehiculos.html" class="waves-effect waves-light btn black-text teal"><i class="mdi-maps-local-shipping left"></i>Vehiculos</a>
@@ -30,89 +30,128 @@
 
       <div class="col s10 offset-s2">
         <nav>
-          <div class="nav-wrapper">
+          <div class="nav-wrapper teal">
             <a href="#" class="brand-logo center">Control - Diario</a>
           </div>
         </nav>
+        <div class="input-field col s12" id="selectFecha">
+          <select id="fecha" class="browser-default" name="fecha">
+          </select>
+        </div>
+        <table class="hoverable" id="calendario">
+          <thead>
+            <tr>
+              <th data-field="ruta">Ruta</th>
+              <th data-field="fecha">Fecha</th>
+              <th data-field="operador">Operador</th>
+              <th data-field="copiloto">Copiloto</th>
+              <th data-field="vehiculo">Vehiculo</th>
+              <th data-field="hrsalida">Hr. de Salida</th>
+              <th data-field="hrllegda">Hr. de Llegada</th>
+              <th data-field="tienda">Tienda</th>
+              <th data-field="tiempo">Tiempo en Tienda (minutos)</th>
+              <th data-field="comentarios">Comentario</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
           <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-              <a href="#modal1" class="btn-floating btn-large teal tooltipped modal-trigger" data-position="left" data-delay="50" data-tooltip="Agregar vehiculo">
+              <a href="#modal1" class="btn-floating btn-large teal tooltipped modal-trigger" data-position="left" data-delay="50" data-tooltip="Agregar historial">
                   <i class="large mdi-content-add"></i></a>
           </div>
       </div>
     </div>
-
-    <!-- modal form: alta rutas -->
     <div class="modal" id="modal1">
       <div class="modal-content">
-        <h3 class="center">Registrar un vehículo nuevo</h3>
-        <form class="col s12">
+        <h3 class="center">Registro - Mantenimiento</h3>
+        <form class="col s12" id="form-id">
           <div class="row">
-            <div class="input-field col s6">
-              <input id="nombre" type="text" class="validate">
-              <label for="nombre">Nombre</label>
-            </div>
-            <div class="input-field col s6">
-              <input id="marca" type="text" class="validate">
-              <label for="marca">Marca</label>
-            </div>
-            <div class="input-field col s6">
-              <input id="modelo" type="text" class="validate">
-              <label for="modelo">Modelo</label>
-            </div>
-            <div class="input-field col s6">
-              <input id="descripcion" type="text" class="validate">
-              <label for="descripcion">Descripcion</label>
-            </div>
-            <div class="input-field col s6">
-              <input id="placas" type="text" class="validate">
-              <label for="placas">Placas</label>
-            </div>
-            <div class="input-field col s6">
-              <input id="clasificacion" type="text" class="validate">
-              <label for="clasificacion">Clasificacion</label>
-            </div>
-            <div class="input-field col s6">
-              <input id="donante" type="text" class="validate">
-              <label for="donante">Donante</label>
-            </div>
-            <div class="input-field col s6">
-              <select>
-                <option value="" disabled selected>Tipo de Combustible</option>
-                <option value="magna">Magna</option>
-                <option value="premium">Premium</option>
-                <option value="diesel">Diesel</option>
+            <div class="input-field col s6" id="selectRuta">
+              <select id="ruta" class="browser-default" name="ruta">
               </select>
-              <label>Ruta</label>
             </div>
             <div class="input-field col s6">
-              <input id="numtarjeta" type="text" class="validate">
-              <label for="numtarjeta">Número de Tarjeta</label>
+              <input name = "fecha" id="fecha" type="date" class="datepicker">
+              <label for="fecha">Fecha</label>
             </div>
-            <div class="input-field col s6">
-              <input id="numholograma" type="text" class="validate">
-              <label for="numholograma">Número de Holograma</label>
-            </div>
-            <div class="input-field col s6">
-              <input id="numserie" type="text" class="validate">
-              <label for="numserie">Número de Serie</label>
-            </div>
-            <div class="input-field col s6">
-              <select>
-                <option value="" disabled selected>Disponibilidad</option>
-                <option value="si">Si</option>
-                <option value="no">No</option>
+            <div class="input-field col s12" id="selectOperador">
+              <select id="operador" class="browser-default" name="operador">
               </select>
-              <label>Ruta</label>
             </div>
+            <div class="input-field col s12" id="selectOperador">
+              <select id="copiloto" class="browser-default" name="copiloto">
+              </select>
+            </div>
+            <div class="input-field col s12" id="selectVehiculo">
+              <select id="vehiculo" class="browser-default" name="vehiculo">
+              </select>
+            </div>
+            <div class="input-field col s6">
+              <select class="browser-default" id="hrSalida">
+                <option value="" disabled selected>Hora de Salida</option>
+                <option value="5:30 AM">5:30 AM</option>
+                <option value="5:45 AM">5:45 AM</option>
+                <option value="6:00 AM">6:00 AM</option>
+                <option value="6:15 AM">6:15 AM</option>
+                <option value="6:30 AM">6:30 AM</option>
+                <option value="6:45 AM">6:45 AM</option>
+                <option value="7:00 AM">7:00 AM</option>
+                <option value="7:15 AM">7:15 AM</option>
+                <option value="7:30 AM">7:30 AM</option>
+                <option value="7:45 AM">7:45 AM</option>
+                <option value="8:00 AM">8:00 AM</option>
+                <option value="8:15 AM">8:15 AM</option>
+                <option value="8:30 AM">8:30 AM</option>
+                <option value="8:45 AM">8:45 AM</option>
+                <option value="9:00 AM">9:00 AM</option>
+                <option value="9:15 AM">9:15 AM</option>
+                <option value="9:30 AM">9:30 AM</option>
+                <option value="9:45 AM">9:45 AM</option>
+                <option value="10:00 AM">10:00 AM</option>
+                <option value="10:15 AM">10:15 AM</option>
+                <option value="10:30 AM">10:30 AM</option>
+                <option value="10:45 AM">10:45 AM</option>
+                <option value="11:00 AM">11:00 AM</option>
+                <option value="11:15 AM">11:15 AM</option>
+                <option value="11:30 AM">11:30 AM</option>
+                <option value="11:45 AM">11:45 AM</option>
+                <option value="12:00 PM">12:00 PM</option>
+                <option value="12:15 PM">12:15 PM</option>
+                <option value="12:30 PM">12:30 PM</option>
+                <option value="12:45 PM">12:45 PM</option>
+                <option value="1:00 PM">1:00 PM</option>
+                <option value="1:15 PM">1:15 PM</option>
+                <option value="1:30 PM">1:30 PM</option>
+                <option value="1:45 PM">1:45 PM</option>
+                <option value="2:00 PM">2:00 PM</option>
+                <option value="2:15 PM">2:15 PM</option>
+                <option value="2:30 PM">2:30 PM</option>
+                <option value="2:45 PM">2:45 PM</option>
+                <option value="3:00 PM">3:00 PM</option>
+                <option value="3:15 PM">3:15 PM</option>
+                <option value="3:30 PM">3:30 PM</option>
+                <option value="3:45 PM">3:45 PM</option>
+                <option value="4:00 PM">4:00 PM</option>
+                <option value="4:15 PM">4:15 PM</option>
+                <option value="4:30 PM">4:30 PM</option>
+                <option value="4:45 PM">4:45 PM</option>
+                <option value="5:00 PM">5:00 PM</option>
+                <option value="5:15 PM">5:15 PM</option>
+                <option value="5:30 PM">5:30 PM</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+              <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat" id="submit-id" onclick="agregarABase()">Submit</a>
+              <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
           </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Submit</a>
-        <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
-      </div>
     </div>
-    <!-- Termino del modal -->
+  <!-- Termino del modal -->
 
     <script>
       window.onload = function() {
@@ -135,6 +174,208 @@
         if (location)
           location.reload();
       });
+    </script>
+    <script>
+      var db;
+      window.onload = function() {
+        inicializarTabla(function() {
+          $("#calendario").on("click","button",function() {
+          if($(this).hasClass('editar-fila')){
+            var fila = $(this).parent().parent();
+            var items = [null, null, null,null, null, null,null, null, null];
+            fila.children().each(function(index, el) {
+             if ($(this).data("modify") != "0") {
+                console.log($(this).html());
+                var txt = $(this).html();
+               if(txt == " ") {
+                var width = 10;
+               } else {
+                var width = txt.length + 2;
+               }
+                $(this).html("<input value='"+txt+"' size='"+width+"'/>");
+              };
+            });
+            $(this).removeClass('editar-fila').addClass('green guardar-cambios');
+            $(this).children().removeClass('mdi-editor-mode-edit').addClass('mdi-content-save');
+          }
+          else if ($(this).hasClass('guardar-cambios')){
+            var fila = $(this).parent().parent();
+            fila.children().each(function(index, el) {
+              if ($(this).data("modify") != "0") {
+                  var newval = $(this).children().val();
+                  $(this).html(newval);
+              };
+            });
+            $(this).removeClass('green guardar-cambios').addClass('editar-fila');
+            $(this).children().removeClass('mdi-content-save').addClass('mdi-editor-mode-edit');
+            var fila = $(this).parent().parent();
+            guardarCambios(fila);
+          }
+          else if($(this).hasClass('borrar-fila')) {
+            if(confirm("¿Estas seguro que quieres borrar este registro?") == true) {
+				var fila = $(this).parent().parent();
+				var ID = fila.attr('data-id');
+				db.transaction(function (tx) {
+				  tx.executeSql('DELETE FROM controldiario WHERE id=' + ID);
+        		});
+				fila.html("");
+            }
+          }
+        });
+        $("#selectFecha").on("change", function() {
+          var value = $("#selectFecha option:selected").text();
+          filtrarTabla(value);
+        });
+        db.transaction(function (tx) {
+              tx.executeSql('SELECT * FROM empleados ORDER BY Nombre ASC', [], function (tx, results) {
+                var len = results.rows.length, i;
+                var html='<option value="" disabled selected>Operador/Copiloto</option>';
+                for (i = 0; i < len; i++) {
+                  html+='<option value="'+results.rows.item(i).Nombre+'">'+results.rows.item(i).Nombre+'</option>';
+                }
+                $('#selectOperador select').append(html);
+              });
+          });
+          db.transaction(function (tx) {
+              tx.executeSql('SELECT DISTINCT Nombre FROM visitas ORDER BY Nombre ASC', [], function (tx, results) {
+                var len = results.rows.length, i;
+                var html='<option value="" disabled selected>Ruta</option>';
+                for (i = 0; i < len; i++) {
+                  html+='<option value="'+results.rows.item(i).Nombre+'">'+results.rows.item(i).Nombre+'</option>';
+                }
+                $('#selectRuta select').append(html);
+              });
+          });
+          db.transaction(function (tx) {
+              tx.executeSql('SELECT * FROM vehiculos', [], function (tx, results) {
+                var len = results.rows.length, i;
+                var html='<option value="" disabled selected>Vehiculo</option>';
+                for (i = 0; i < len; i++) {
+                  html+='<option value="'+results.rows.item(i).Nombre+'">'+results.rows.item(i).Nombre+'</option>';
+                }
+                $('#selectVehiculo select').append(html);
+              });
+          });
+          db.transaction(function (tx) {
+              tx.executeSql('SELECT DISTINCT Fecha FROM controldiario', [], function (tx, results) {
+                var len = results.rows.length, i;
+                var html='<option value="" disabled selected>Fecha</option>';
+                for (i = 0; i < len; i++) {
+                  html+='<option value="'+results.rows.item(i).Fecha+'">'+results.rows.item(i).Fecha+'</option>';
+                }
+                $('#selectFecha select').append(html);
+              });
+          });
+      });
+    }
+      function inicializarTabla(callback) {
+        db = openDatabase('BAM', '1.0', 'database', 10 * 1024 * 1024);
+        db.transaction(function (tx) {
+            tx.executeSql('CREATE TABLE IF NOT EXISTS controldiario (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Ruta, Fecha, Operador, Copiloto, Vehiculo, Hrsalida, Hrllegada, Tienda, Tiempotienda, Comentario)');
+        });
+        db.transaction(function (tx) {
+          tx.executeSql('SELECT * FROM controldiario ORDER BY Lower(Fecha) ASC', [], function (tx, results) {
+            var len = results.rows.length, i;
+            var html='';
+            for (i = 0; i < len; i++) {
+              html+='<tr data-id="'+results.rows.item(i).id+'"><td>'+results.rows.item(i).Ruta+'</td><td>'+results.rows.item(i).Fecha+'</td><td>';
+              html+=results.rows.item(i).Operador+'</td><td>'+results.rows.item(i).Copiloto+'</td><td>'+results.rows.item(i).Vehiculo+'</td><td>'+results.rows.item(i).Hrsalida+'</td><td>'+results.rows.item(i).Hrllegada+'</td><td>'+results.rows.item(i).Tienda+'</td><td>'+results.rows.item(i).Tiempotienda+'</td><td>'+results.rows.item(i).Comentario+'</td>';
+              html+='<td data-modify="0"><button class="btn waves-effect waves-light center editar-fila"><i class="mdi-editor-mode-edit"></i></button></td>' +
+                '<td data-modify="0"><button class="btn waves-effect waves-light center red borrar-fila"><i class="mdi-action-delete"></i></button></td></tr>';
+            }
+            $('#calendario tbody').append(html);
+            callback();
+          });
+        });
+      }
+      function filtrarTabla(value) {
+        db.transaction(function (tx) {
+          tx.executeSql('SELECT * FROM controldiario WHERE Fecha=?', [value], function (tx, results) {
+            var len = results.rows.length, i;
+            var html='';
+            for (i = 0; i < len; i++) {
+              html+='<tr data-id="'+results.rows.item(i).id+'"><td>'+results.rows.item(i).Ruta+'</td><td>'+results.rows.item(i).Fecha+'</td><td>';
+              html+=results.rows.item(i).Operador+'</td><td>'+results.rows.item(i).Copiloto+'</td><td>'+results.rows.item(i).Vehiculo+'</td><td>'+results.rows.item(i).Hrsalida+'</td><td>'+results.rows.item(i).Hrllegada+'</td><td>'+results.rows.item(i).Tienda+'</td><td>'+results.rows.item(i).Tiempotienda+'</td><td>'+results.rows.item(i).Comentario+'</td>';
+              html+='<td data-modify="0"><button class="btn waves-effect waves-light center editar-fila"><i class="mdi-editor-mode-edit"></i></button></td>' +
+                '<td data-modify="0"><button class="btn waves-effect waves-light center red borrar-fila"><i class="mdi-action-delete"></i></button></td></tr>';
+            }
+            $('#calendario tbody').html(html);
+          });
+        });
+      }
+      function trim(value) {
+          var temp = value;
+          var obj = /^(\s*)([\W\w]*)(\b\s*$)/;
+          if (obj.test(temp)) { temp = temp.replace(obj, '$2');}
+          var obj = /  /g;
+          while (temp.match(obj)) { temp = temp.replace(obj, " ");}
+          return temp;
+      }
+      $(window).ready(function() {
+        $('select').material_select();
+        $('.modal-trigger').leanModal({
+          dismissible: false
+        });
+        $('.datepicker').pickadate({
+        selectMonths: true, // Creates a dropdown to control month
+        selectYears: 50 // Creates a dropdown of 15 years to control year
+        });
+      });
+      function agregarABase(){
+        var form = document.getElementById("form-id");
+        var ruta = form.ruta.value;
+        var fecha = form.fecha.value;
+        var operador = form.operador.value;
+        var copiloto = form.copiloto.value;
+        var vehiculo = form.vehiculo.value;
+        var hrSalida = form.hrSalida.value;
+
+        if(fecha=="" || vehiculo=="" || ruta=="" || operador=="" || copiloto=="" || hrSalida==""){
+            alert("Por favor llena todos los campos");
+            return false;
+        }
+
+        var dia = fecha.split(" ");
+        var fechaFormato = dia[1].substring(0, dia[1].length - 1) + " " + dia[0] + ", " + dia[2] + " 12:00:00";
+        var weekday = new Array(7);
+        weekday[0] = "Dom";
+        weekday[1] = "Lu";
+        weekday[2] = "Mar";
+        weekday[3] = "Mi";
+        weekday[4] = "Jue";
+        weekday[5] = "Vi";
+        weekday[6] = "Sab";
+        var d = new Date(fechaFormato);
+        var diaCalendario = weekday[d.getDay()];
+        db.transaction(function (tx) {
+          tx.executeSql('SELECT * FROM visitas WHERE Nombre=?', [ruta], function (tx, results) {
+            var len = results.rows.length, i;
+            for (i = 0; i < len; i++) {
+              if(results.rows.item(i).TipoVisita.search(diaCalendario) >= 0 || results.rows.item(i).TipoVisita == "Diaria") {
+                tx.executeSql('INSERT INTO controldiario VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
+                  [ruta, fecha, operador, copiloto, vehiculo, hrSalida, " ", results.rows.item(i).TiendaSucursal, " ", " "]);
+              }
+            }
+          });
+        });
+        location.reload();
+      return true;
+    }
+      function guardarCambios(fila) {
+        fila = fila[0];
+        var fecha = fila.children[0].innerText;
+        var vehiculo = fila.children[1].innerText;
+        var mantenimiento = fila.children[2].innerText;
+        var costo = fila.children[3].innerText;
+        var taller = fila.children[4].innerText;
+        var comentarios = fila.children[5].innerText;
+        var kilometraje = fila.children[6].innerText;
+        var ID = fila.getAttribute("data-id");
+        db.transaction(function (tx) {
+            tx.executeSql('UPDATE controlmantenimiento SET Fecha=?, Vehiculo=?, Mantenimiento=?, Costo=?, Taller=?, Comentarios=?, Kilometrajeactual=? WHERE id =?',
+                    [fecha, vehiculo, mantenimiento, costo, taller, comentarios, kilometraje, parseInt(ID)]);
+        });
+      }
     </script>
   </body>
 </html>
