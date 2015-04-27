@@ -49,6 +49,7 @@
               <th data-field="hrsalida">Hr. de Salida</th>
               <th data-field="hrllegda">Hr. de Llegada</th>
               <th data-field="tienda">Tienda</th>
+              <th data-field="folio">Folio</th>
               <th data-field="tiempo">Tiempo en Tienda (minutos)</th>
               <th data-field="comentarios">Comentario</th>
               <th></th>
@@ -273,7 +274,7 @@
       function inicializarTabla(callback) {
         db = openDatabase('BAM', '1.0', 'database', 10 * 1024 * 1024);
         db.transaction(function (tx) {
-            tx.executeSql('CREATE TABLE IF NOT EXISTS controldiario (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Ruta, Fecha, Operador, Copiloto, Vehiculo, Hrsalida, Hrllegada, Tienda, Tiempotienda, Comentario)');
+            tx.executeSql('CREATE TABLE IF NOT EXISTS controldiario (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Ruta, Fecha, Operador, Copiloto, Vehiculo, Hrsalida, Hrllegada, Tienda, Folio, Tiempotienda, Comentario)');
         });
         db.transaction(function (tx) {
           tx.executeSql('SELECT * FROM controldiario ORDER BY Lower(Fecha) ASC', [], function (tx, results) {
@@ -281,7 +282,7 @@
             var html='';
             for (i = 0; i < len; i++) {
               html+='<tr data-id="'+results.rows.item(i).id+'"><td>'+results.rows.item(i).Ruta+'</td><td>'+results.rows.item(i).Fecha+'</td><td>';
-              html+=results.rows.item(i).Operador+'</td><td>'+results.rows.item(i).Copiloto+'</td><td>'+results.rows.item(i).Vehiculo+'</td><td>'+results.rows.item(i).Hrsalida+'</td><td>'+results.rows.item(i).Hrllegada+'</td><td>'+results.rows.item(i).Tienda+'</td><td>'+results.rows.item(i).Tiempotienda+'</td><td>'+results.rows.item(i).Comentario+'</td>';
+              html+=results.rows.item(i).Operador+'</td><td>'+results.rows.item(i).Copiloto+'</td><td>'+results.rows.item(i).Vehiculo+'</td><td>'+results.rows.item(i).Hrsalida+'</td><td>'+results.rows.item(i).Hrllegada+'</td><td>'+results.rows.item(i).Tienda+'</td><td>'+results.rows.item(i).Folio+'</td><td>'+results.rows.item(i).Tiempotienda+'</td><td>'+results.rows.item(i).Comentario+'</td>';
               html+='<td data-modify="0"><button class="btn waves-effect waves-light center editar-fila"><i class="mdi-editor-mode-edit"></i></button></td>' + 
                 '<td data-modify="0"><button class="btn waves-effect waves-light center red borrar-fila"><i class="mdi-action-delete"></i></button></td></tr>';
             }
@@ -297,7 +298,7 @@
             var html='';
             for (i = 0; i < len; i++) {
               html+='<tr data-id="'+results.rows.item(i).id+'"><td>'+results.rows.item(i).Ruta+'</td><td>'+results.rows.item(i).Fecha+'</td><td>';
-              html+=results.rows.item(i).Operador+'</td><td>'+results.rows.item(i).Copiloto+'</td><td>'+results.rows.item(i).Vehiculo+'</td><td>'+results.rows.item(i).Hrsalida+'</td><td>'+results.rows.item(i).Hrllegada+'</td><td>'+results.rows.item(i).Tienda+'</td><td>'+results.rows.item(i).Tiempotienda+'</td><td>'+results.rows.item(i).Comentario+'</td>';
+              html+=results.rows.item(i).Operador+'</td><td>'+results.rows.item(i).Copiloto+'</td><td>'+results.rows.item(i).Vehiculo+'</td><td>'+results.rows.item(i).Hrsalida+'</td><td>'+results.rows.item(i).Hrllegada+'</td><td>'+results.rows.item(i).Tienda+'</td><td>'+results.rows.item(i).Folio+'</td><td>'+results.rows.item(i).Tiempotienda+'</td><td>'+results.rows.item(i).Comentario+'</td>';
               html+='<td data-modify="0"><button class="btn waves-effect waves-light center editar-fila"><i class="mdi-editor-mode-edit"></i></button></td>' + 
                 '<td data-modify="0"><button class="btn waves-effect waves-light center red borrar-fila"><i class="mdi-action-delete"></i></button></td></tr>';
             }
@@ -354,8 +355,8 @@
             var len = results.rows.length, i;
             for (i = 0; i < len; i++) {
               if(results.rows.item(i).TipoVisita.search(diaCalendario) >= 0 || results.rows.item(i).TipoVisita == "Diaria") {
-                tx.executeSql('INSERT INTO controldiario VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
-                  [ruta, fecha, operador, copiloto, vehiculo, hrSalida, " ", results.rows.item(i).TiendaSucursal, " ", " "]); 
+                tx.executeSql('INSERT INTO controldiario VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
+                  [ruta, fecha, operador, copiloto, vehiculo, hrSalida, " ", results.rows.item(i).TiendaSucursal," ", " ", " "]); 
               }
             }
           });
@@ -365,17 +366,21 @@
     }
       function guardarCambios(fila) {
         fila = fila[0];
-        var fecha = fila.children[0].innerText;
-        var vehiculo = fila.children[1].innerText;
-        var mantenimiento = fila.children[2].innerText;
-        var costo = fila.children[3].innerText;
-        var taller = fila.children[4].innerText;
-        var comentarios = fila.children[5].innerText;
-        var kilometraje = fila.children[6].innerText;
+        var ruta = fila.children[0].innerText;
+        var fecha = fila.children[1].innerText;
+        var operador = fila.children[2].innerText;
+        var copiloto = fila.children[3].innerText;
+        var vehiculo = fila.children[4].innerText;
+        var hrSalida = fila.children[5].innerText;
+        var hrLlegada = fila.children[6].innerText;
+        var tienda = fila.children[7].innerText;
+        var folio = fila.children[8].innerText;
+        var tiempo = fila.children[9].innerText;
+        var comentario = fila.children[10].innerText;
         var ID = fila.getAttribute("data-id");
         db.transaction(function (tx) {
-            tx.executeSql('UPDATE controlmantenimiento SET Fecha=?, Vehiculo=?, Mantenimiento=?, Costo=?, Taller=?, Comentarios=?, Kilometrajeactual=? WHERE id =?',
-                    [fecha, vehiculo, mantenimiento, costo, taller, comentarios, kilometraje, parseInt(ID)]);
+            tx.executeSql('UPDATE controldiario SET Ruta=?, Fecha=?, Operador=?, Copiloto=?, Vehiculo=?, Hrsalida=?, Hrllegada=?, Tienda=?, Folio=?, Tiempotienda=?, Comentario=? WHERE id =?',
+                    [ruta, fecha, operador, copiloto, vehiculo, hrSalida, hrLlegada, tienda, folio, tiempo, comentario, parseInt(ID)]);
         });
       }
     </script>
