@@ -65,8 +65,6 @@
           </div>
       </div>
     </div>
-    
-    <!-- modal form: historial rutas -->
     <div class="modal" id="modal1">
       <div class="modal-content">
         <h3 class="center">Registro - Mantenimiento</h3>
@@ -208,7 +206,7 @@
                   var newval = $(this).children().val();
                   $(this).html(newval);
               };
-            });	
+            });
             $(this).removeClass('green guardar-cambios').addClass('editar-fila');
             $(this).children().removeClass('mdi-content-save').addClass('mdi-editor-mode-edit');
             var fila = $(this).parent().parent();
@@ -216,7 +214,7 @@
           }
           else if($(this).hasClass('borrar-fila')) {
             if(confirm("¿Estas seguro que quieres borrar este registro?") == true) {
-				var fila = $(this).parent().parent();		
+				var fila = $(this).parent().parent();
 				var ID = fila.attr('data-id');
 				db.transaction(function (tx) {
 				  tx.executeSql('DELETE FROM controldiario WHERE id=' + ID);
@@ -282,8 +280,13 @@
             var html='';
             for (i = 0; i < len; i++) {
               html+='<tr data-id="'+results.rows.item(i).id+'"><td>'+results.rows.item(i).Ruta+'</td><td>'+results.rows.item(i).Fecha+'</td><td>';
+<<<<<<< HEAD
               html+=results.rows.item(i).Operador+'</td><td>'+results.rows.item(i).Copiloto+'</td><td>'+results.rows.item(i).Vehiculo+'</td><td>'+results.rows.item(i).Hrsalida+'</td><td>'+results.rows.item(i).Hrllegada+'</td><td>'+results.rows.item(i).Tienda+'</td><td>'+results.rows.item(i).Folio+'</td><td>'+results.rows.item(i).Tiempotienda+'</td><td>'+results.rows.item(i).Comentario+'</td>';
               html+='<td data-modify="0"><button class="btn waves-effect waves-light center editar-fila"><i class="mdi-editor-mode-edit"></i></button></td>' + 
+=======
+              html+=results.rows.item(i).Operador+'</td><td>'+results.rows.item(i).Copiloto+'</td><td>'+results.rows.item(i).Vehiculo+'</td><td>'+results.rows.item(i).Hrsalida+'</td><td>'+results.rows.item(i).Hrllegada+'</td><td>'+results.rows.item(i).Tienda+'</td><td>'+results.rows.item(i).Tiempotienda+'</td><td>'+results.rows.item(i).Comentario+'</td>';
+              html+='<td data-modify="0"><button class="btn waves-effect waves-light center editar-fila"><i class="mdi-editor-mode-edit"></i></button></td>' +
+>>>>>>> origin/master
                 '<td data-modify="0"><button class="btn waves-effect waves-light center red borrar-fila"><i class="mdi-action-delete"></i></button></td></tr>';
             }
             $('#calendario tbody').append(html);
@@ -298,8 +301,13 @@
             var html='';
             for (i = 0; i < len; i++) {
               html+='<tr data-id="'+results.rows.item(i).id+'"><td>'+results.rows.item(i).Ruta+'</td><td>'+results.rows.item(i).Fecha+'</td><td>';
+<<<<<<< HEAD
               html+=results.rows.item(i).Operador+'</td><td>'+results.rows.item(i).Copiloto+'</td><td>'+results.rows.item(i).Vehiculo+'</td><td>'+results.rows.item(i).Hrsalida+'</td><td>'+results.rows.item(i).Hrllegada+'</td><td>'+results.rows.item(i).Tienda+'</td><td>'+results.rows.item(i).Folio+'</td><td>'+results.rows.item(i).Tiempotienda+'</td><td>'+results.rows.item(i).Comentario+'</td>';
               html+='<td data-modify="0"><button class="btn waves-effect waves-light center editar-fila"><i class="mdi-editor-mode-edit"></i></button></td>' + 
+=======
+              html+=results.rows.item(i).Operador+'</td><td>'+results.rows.item(i).Copiloto+'</td><td>'+results.rows.item(i).Vehiculo+'</td><td>'+results.rows.item(i).Hrsalida+'</td><td>'+results.rows.item(i).Hrllegada+'</td><td>'+results.rows.item(i).Tienda+'</td><td>'+results.rows.item(i).Tiempotienda+'</td><td>'+results.rows.item(i).Comentario+'</td>';
+              html+='<td data-modify="0"><button class="btn waves-effect waves-light center editar-fila"><i class="mdi-editor-mode-edit"></i></button></td>' +
+>>>>>>> origin/master
                 '<td data-modify="0"><button class="btn waves-effect waves-light center red borrar-fila"><i class="mdi-action-delete"></i></button></td></tr>';
             }
             $('#calendario tbody').html(html);
@@ -313,7 +321,7 @@
           var obj = /  /g;
           while (temp.match(obj)) { temp = temp.replace(obj, " ");}
           return temp;
-      } 
+      }
       $(window).ready(function() {
         $('select').material_select();
         $('.modal-trigger').leanModal({
@@ -332,12 +340,12 @@
         var copiloto = form.copiloto.value;
         var vehiculo = form.vehiculo.value;
         var hrSalida = form.hrSalida.value;
-        
+
         if(fecha=="" || vehiculo=="" || ruta=="" || operador=="" || copiloto=="" || hrSalida==""){
             alert("Por favor llena todos los campos");
             return false;
         }
-        
+
         var dia = fecha.split(" ");
         var fechaFormato = dia[1].substring(0, dia[1].length - 1) + " " + dia[0] + ", " + dia[2] + " 12:00:00";
         var weekday = new Array(7);
@@ -355,8 +363,13 @@
             var len = results.rows.length, i;
             for (i = 0; i < len; i++) {
               if(results.rows.item(i).TipoVisita.search(diaCalendario) >= 0 || results.rows.item(i).TipoVisita == "Diaria") {
+<<<<<<< HEAD
                 tx.executeSql('INSERT INTO controldiario VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
                   [ruta, fecha, operador, copiloto, vehiculo, hrSalida, " ", results.rows.item(i).TiendaSucursal," ", " ", " "]); 
+=======
+                tx.executeSql('INSERT INTO controldiario VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
+                  [ruta, fecha, operador, copiloto, vehiculo, hrSalida, " ", results.rows.item(i).TiendaSucursal, " ", " "]);
+>>>>>>> origin/master
               }
             }
           });

@@ -34,6 +34,30 @@
             <a href="#" class="brand-logo center">DASHBOARD</a>
           </div>
         </nav>
+        <div class="col s6">
+          <div class="card-panel teal">
+            <h3 class="white-text center-align">ESTADÍSTICAS</h3>
+          </div>
+        </div>
+        <div class="col s6">
+          <div class="card-panel grey lighten-2">
+            <h3 class="center-align">NOTIFICACIONES</h3>
+            <ul class="collapsible popout" data-collapsible="accordion">
+              <li>
+                <div class="collapsible-header"><i class="mdi-image-filter-drama"></i>First</div>
+                <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+              </li>
+              <li>
+                <div class="collapsible-header"><i class="mdi-maps-place"></i>Second</div>
+                <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+              </li>
+              <li>
+                <div class="collapsible-header"><i class="mdi-social-whatshot"></i>Third</div>
+                <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -48,6 +72,12 @@
       fs.watch(path, function() {
         if (location)
           location.reload();
+      });
+
+      $(document).ready(function(){
+        $('.collapsible').collapsible({
+          accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+        });
       });
     </script>
   </body>
