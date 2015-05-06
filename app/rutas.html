@@ -46,7 +46,11 @@ Rutas
       <div class="col s10 offset-s2">
         <nav>
           <div class="nav-wrapper teal">
-            <a href="#" class="brand-logo center">Rutas disponibles</a>
+            <a href="#" class="brand-logo center">Sucursales</a>
+            <ul id="nav-mobile" class="left hide-on-med-and-down">
+              <li class="active"><a href="#">Rutas</a></li>
+              <li><a href="./sucursales.html">Sucursales</a></li>
+            </ul>
           </div>
         </nav>
         <table class="hoverable" id="calendario">
@@ -104,9 +108,9 @@ Rutas
             </div>
           </div>
           <div class="row">
-            <div class="input-field col s6">
-              <input id="tienda" type="text" class="validate" name="tienda">
-              <label for="tienda">Tienda Sucursal</label>
+            <div class="input-field col s6" id="selectSucursal">
+              <select id="sucursal" class="selectSucursal browser-default" name="sucursal">
+              </select>
             </div>
             <div class="input-field col s6">
               <p class="tooltipped" data-tooltip="Escoger todos los días que se visitara la sucursal" data-positon="left" data-delay="50">Tipo de Visita</p>
@@ -211,6 +215,16 @@ Rutas
                   html+='<option value="'+results.rows.item(i).Nombre+'">'+results.rows.item(i).Nombre+'</option>';
                 }
                 $('#selectRuta select').append(html);
+              });
+          });
+          db.transaction(function (tx) {
+              tx.executeSql('SELECT DISTINCT Nombre FROM sucursales ORDER BY Nombre ASC', [], function (tx, results) {
+                var len = results.rows.length, i;
+                var html='<option value="" disabled selected>Escoje una sucursal</option>';
+                for (i = 0; i < len; i++) {
+                  html+='<option value="'+results.rows.item(i).Nombre+'">'+results.rows.item(i).Nombre+'</option>';
+                }
+                $('#selectSucursal select').append(html);
               });
           });
         });

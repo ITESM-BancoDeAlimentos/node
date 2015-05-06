@@ -63,7 +63,7 @@ Control-Diario
               <th data-field="vehiculo">Vehiculo</th>
               <th data-field="hrsalida">Hr. de Salida</th>
               <th data-field="hrllegda">Hr. de Llegada</th>
-              <th data-field="tienda">Tienda</th>
+              <th data-field="tienda">Tienda</th> 
               <th data-field="folio">Folio</th>
               <th data-field="tiempo">Tiempo en Tienda (minutos)</th>
               <th data-field="comentarios">Comentario</th>
@@ -77,10 +77,13 @@ Control-Diario
           <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
               <a href="#modal1" class="btn-floating btn-large teal tooltipped modal-trigger" data-position="left" data-delay="50" data-tooltip="Agregar historial">
                   <i class="large mdi-content-add"></i></a>
+              <a href="#modal2" class="btn-floating btn-large teal tooltipped modal-trigger" data-position="left" data-delay="50" data-tooltip="Agregar vuelta individual">
+                  <i class="large mdi-action-store"></i></a>
           </div>
       </div>
     </div>
-    <div class="modal" id="modal1">
+    <!-- Modal 1 -->
+    <div class="modal" id="modal1"> 
       <div class="modal-content">
         <h3 class="center">Control Diario</h3>
         <form class="col s12" id="form-id">
@@ -168,7 +171,96 @@ Control-Diario
       </div>
     </div>
   <!-- Termino del modal -->
-
+  
+    <!-- Modal Vuelta individual -->
+    <div class="modal" id="modal2"> 
+      <div class="modal-content">
+        <h3 class="center">Vuelta Individual</h3>
+        <form class="col s12" id="form-id2">
+          <div class="row">
+            <div class="input-field col s6" id="selectSucursal">
+              <select id="sucursal" class="browser-default" name="sucursal">
+              </select>
+            </div>
+            <div class="input-field col s6">
+              <input name = "fecha" id="fecha" type="date" class="datepicker">
+              <label for="fecha">Fecha</label>
+            </div>
+            <div class="input-field col s12" id="selectOperador">
+              <select id="operador" class="browser-default" name="operador">
+              </select>
+            </div>
+            <div class="input-field col s12" id="selectOperador">
+              <select id="copiloto" class="browser-default" name="copiloto">
+              </select>
+            </div>
+            <div class="input-field col s12" id="selectVehiculo">
+              <select id="vehiculo" class="browser-default" name="vehiculo">
+              </select>
+            </div>
+            <div class="input-field col s6">
+              <select class="browser-default" id="hrSalida">
+                <option value="" disabled selected>Hora de Salida</option>
+                <option value="5:30 AM">5:30 AM</option>
+                <option value="5:45 AM">5:45 AM</option>
+                <option value="6:00 AM">6:00 AM</option>
+                <option value="6:15 AM">6:15 AM</option>
+                <option value="6:30 AM">6:30 AM</option>
+                <option value="6:45 AM">6:45 AM</option>
+                <option value="7:00 AM">7:00 AM</option>
+                <option value="7:15 AM">7:15 AM</option>
+                <option value="7:30 AM">7:30 AM</option>
+                <option value="7:45 AM">7:45 AM</option>
+                <option value="8:00 AM">8:00 AM</option>
+                <option value="8:15 AM">8:15 AM</option>
+                <option value="8:30 AM">8:30 AM</option>
+                <option value="8:45 AM">8:45 AM</option>
+                <option value="9:00 AM">9:00 AM</option>
+                <option value="9:15 AM">9:15 AM</option>
+                <option value="9:30 AM">9:30 AM</option>
+                <option value="9:45 AM">9:45 AM</option>
+                <option value="10:00 AM">10:00 AM</option>
+                <option value="10:15 AM">10:15 AM</option>
+                <option value="10:30 AM">10:30 AM</option>
+                <option value="10:45 AM">10:45 AM</option>
+                <option value="11:00 AM">11:00 AM</option>
+                <option value="11:15 AM">11:15 AM</option>
+                <option value="11:30 AM">11:30 AM</option>
+                <option value="11:45 AM">11:45 AM</option>
+                <option value="12:00 PM">12:00 PM</option>
+                <option value="12:15 PM">12:15 PM</option>
+                <option value="12:30 PM">12:30 PM</option>
+                <option value="12:45 PM">12:45 PM</option>
+                <option value="1:00 PM">1:00 PM</option>
+                <option value="1:15 PM">1:15 PM</option>
+                <option value="1:30 PM">1:30 PM</option>
+                <option value="1:45 PM">1:45 PM</option>
+                <option value="2:00 PM">2:00 PM</option>
+                <option value="2:15 PM">2:15 PM</option>
+                <option value="2:30 PM">2:30 PM</option>
+                <option value="2:45 PM">2:45 PM</option>
+                <option value="3:00 PM">3:00 PM</option>
+                <option value="3:15 PM">3:15 PM</option>
+                <option value="3:30 PM">3:30 PM</option>
+                <option value="3:45 PM">3:45 PM</option>
+                <option value="4:00 PM">4:00 PM</option>
+                <option value="4:15 PM">4:15 PM</option>
+                <option value="4:30 PM">4:30 PM</option>
+                <option value="4:45 PM">4:45 PM</option>
+                <option value="5:00 PM">5:00 PM</option>
+                <option value="5:15 PM">5:15 PM</option>
+                <option value="5:30 PM">5:30 PM</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+              <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat" id="submit-id" onclick="agregarABaseIndividual()">Submit</a>
+              <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- Termino de Modal -->
     <script>
       window.onload = function() {
         $(document).ready(function() {
@@ -250,6 +342,16 @@ Control-Diario
                   html+='<option value="'+results.rows.item(i).Nombre+'">'+results.rows.item(i).Nombre+'</option>';
                 }
                 $('#selectOperador select').append(html);
+              });
+          });
+          db.transaction(function (tx) {
+              tx.executeSql('SELECT DISTINCT Nombre FROM sucursales ORDER BY Nombre ASC', [], function (tx, results) {
+                var len = results.rows.length, i;
+                var html='<option value="" disabled selected>Escoje una sucursal</option>';
+                for (i = 0; i < len; i++) {
+                  html+='<option value="'+results.rows.item(i).Nombre+'">'+results.rows.item(i).Nombre+'</option>';
+                }
+                $('#selectSucursal select').append(html);
               });
           });
           db.transaction(function (tx) {
@@ -381,6 +483,39 @@ Control-Diario
           });
         });
         location.reload();
+      return true;
+    }
+    function agregarABaseIndividual () {
+      var form = document.getElementById("form-id2");
+      var ruta = "N/A";
+      var sucursal = form.sucursal.value;
+      var fecha = form.fecha.value;
+      var operador = form.operador.value;
+      var copiloto = form.copiloto.value;
+      var vehiculo = form.vehiculo.value;
+      var hrSalida = form.hrSalida.value;
+      if(fecha=="" || vehiculo=="" || sucursal=="" || operador=="" || copiloto=="" || hrSalida==""){
+            alert("Por favor llena todos los campos");
+            return false;
+      }
+      var dia = fecha.split(" ");
+      var fechaFormato = dia[1].substring(0, dia[1].length - 1) + " " + dia[0] + ", " + dia[2] + " 12:00:00";
+      var weekday = new Array(7);
+      weekday[0] = "Dom";
+      weekday[1] = "Lu";
+      weekday[2] = "Mar";
+      weekday[3] = "Mi";
+      weekday[4] = "Jue";
+      weekday[5] = "Vi";
+      weekday[6] = "Sab";
+      var d = new Date(fechaFormato);
+      var diaCalendario = weekday[d.getDay()];
+      var triggerAlert = false;
+      db.transaction(function (tx) {
+        tx.executeSql('INSERT INTO controldiario VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
+                [ruta, fecha, operador, copiloto, vehiculo, hrSalida, " ", sucursal," ", " ", " "]); 
+        });
+      location.reload();
       return true;
     }
       function guardarCambios(fila) {
