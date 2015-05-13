@@ -270,9 +270,12 @@ Vehículos
       }
       db.transaction(function (tx) {
           tx.executeSql('INSERT INTO vehiculos VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
-                  [nombre, marca, modelo, descripcion, placas, clasificacion, donante, gasolina, numTarjeta, numHolograma, numSerie, disponible]);
+                  [nombre, marca, modelo, descripcion, placas, clasificacion, donante, gasolina, numTarjeta, numHolograma, numSerie, disponible], function(){
+                  
+                  location.reload();
+                  
+              });
       });
-      location.reload();
       return true;
     }
        function guardarCambios(fila) {

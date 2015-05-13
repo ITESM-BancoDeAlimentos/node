@@ -267,9 +267,12 @@ Control-Mantenimiento
         }
         db.transaction(function (tx) {
             tx.executeSql('INSERT INTO controlmantenimiento VALUES (NULL, ?, ?, ?, ?, ?, ?, ?);',
-                    [fecha, vehiculo, mantenimiento, costo, taller, comentarios, kilometraje]);
+                    [fecha, vehiculo, mantenimiento, costo, taller, comentarios, kilometraje], function(){
+                  
+                  location.reload();
+                  
+              });
         });
-        location.reload();
       return true;
     }
       function guardarCambios(fila) {

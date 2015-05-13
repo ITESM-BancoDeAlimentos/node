@@ -228,9 +228,12 @@ Sucursales
           }
           db.transaction(function (tx) {
               tx.executeSql('INSERT INTO sucursales VALUES (NULL, ?, ?, ?, ?, ?, ?);',
-                      [nom, dir, col, ciudad, tel, con]);
+                      [nom, dir, col, ciudad, tel, con], function(){
+                  
+                  location.reload();
+                  
+              });
           });
-          location.reload();
           return true;
       }
 

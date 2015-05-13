@@ -284,9 +284,12 @@ Control-Gasolina
         }
         db.transaction(function (tx) {
             tx.executeSql('INSERT INTO controlgasolina VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
-                    [fecha, operador, vehiculo, kilometraje, carga, tipo, formaPago, combustible, numTarjeta, numTicket]);
+                    [fecha, operador, vehiculo, kilometraje, carga, tipo, formaPago, combustible, numTarjeta, numTicket], function(){
+                  
+                  location.reload();
+                  
+              });
         });
-        location.reload();
       return true;
     }
       function guardarCambios(fila) {

@@ -480,9 +480,12 @@ Control-Diario
             if(triggerAlert == true) {
               alert("La ruta seleccionada no recorre sucursales en la fecha escogida.");
             }
-          });
+          }, function(){
+                  
+                  location.reload();
+                  
+              });
         });
-        location.reload();
       return true;
     }
     function agregarABaseIndividual () {
@@ -513,9 +516,12 @@ Control-Diario
       var triggerAlert = false;
       db.transaction(function (tx) {
         tx.executeSql('INSERT INTO controldiario VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
-                [ruta, fecha, operador, copiloto, vehiculo, hrSalida, " ", sucursal," ", " ", " "]); 
+                [ruta, fecha, operador, copiloto, vehiculo, hrSalida, " ", sucursal," ", " ", " "], function(){
+                  
+                  location.reload();
+                  
+              }); 
         });
-      location.reload();
       return true;
     }
       function guardarCambios(fila) {

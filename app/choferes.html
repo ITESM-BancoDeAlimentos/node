@@ -222,9 +222,12 @@ Choferes
           }
           db.transaction(function (tx) {
               tx.executeSql('INSERT INTO empleados VALUES (NULL, ?, ?, ?, ?, ?, ?);',
-                      [nom, dir, tel, "Trafico", nac, con]);
+                      [nom, dir, tel, "Trafico", nac, con], function(){
+                  
+                  location.reload();
+                  
+              });
           });
-          location.reload();
           return true;
       }
 

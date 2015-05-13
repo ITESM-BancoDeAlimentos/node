@@ -1,4 +1,4 @@
-﻿<!--
+<!--
 Integrantes:
 Juan Lorenzo González           A01190381                                                                                 
 Fernando Garza Conde            A01191305                                                                                 
@@ -325,6 +325,10 @@ Rutas
           while (temp.match(obj)) { temp = temp.replace(obj, " ");}
           return temp;
       }
+        
+        
+        
+        
       function agregarABase(){
           var form = document.getElementById("form-id");
           if ( $('#selectRuta').css('display') == 'none' ){
@@ -397,11 +401,19 @@ Rutas
           }
           db.transaction(function (tx) {
               tx.executeSql('INSERT INTO visitas VALUES (NULL, ?, ?, ?);',
-                      [ruta, tienda, visitas]);
+                      [ruta, tienda, visitas], function(){
+                  
+                  location.reload();
+                  
+              });
+              
+              
+              
           });
-        location.reload();
           return true;
       }
+        
+        
       function guardarCambios(fila, callback) {
         fila = fila[0];
         var ruta = fila.children[0].innerText;
