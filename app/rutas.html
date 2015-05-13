@@ -159,7 +159,23 @@ Rutas
       });
     </script>
     <script>
-      var db;
+    var db;
+        var mysql = require('mysql');
+        var connection = mysql.createConnection({
+            host: 'serverbamty',
+            database: 'BAlimentos',
+            user: 'sa',
+            password: 'ba'
+        });
+        connection.connect(function(err) {
+            if(err) {
+                alert("Error connecting");
+            }
+        });
+        connection.query('SELECT A.DONANTE, B.IDSUCURSAL FROM DBO.DONANTES AS A LEFT OUTER JOIN DBO.SUCURSALES AS B ON A.IDDONANTE = B.IDDONANTE', function(err, rows, fields) {
+            if(err) throw err;
+            //codigo aqui
+        });
       window.onload = function() {
         inicializarTabla(function() {
           calendario();
@@ -215,16 +231,6 @@ Rutas
                   html+='<option value="'+results.rows.item(i).Nombre+'">'+results.rows.item(i).Nombre+'</option>';
                 }
                 $('#selectRuta select').append(html);
-              });
-          });
-          db.transaction(function (tx) {
-              tx.executeSql('SELECT DISTINCT Nombre FROM sucursales ORDER BY Nombre ASC', [], function (tx, results) {
-                var len = results.rows.length, i;
-                var html='<option value="" disabled selected>Escoje una sucursal</option>';
-                for (i = 0; i < len; i++) {
-                  html+='<option value="'+results.rows.item(i).Nombre+'">'+results.rows.item(i).Nombre+'</option>';
-                }
-                $('#selectSucursal select').append(html);
               });
           });
         });
