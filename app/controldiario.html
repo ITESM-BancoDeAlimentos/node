@@ -469,22 +469,20 @@ Control-Diario
         db.transaction(function (tx) {
           tx.executeSql('SELECT * FROM visitas WHERE Nombre=?', [ruta], function (tx, results) {
             var len = results.rows.length, i;
+              var inserts = 0;
             for (i = 0; i < len; i++) {
               if(results.rows.item(i).TipoVisita.search(diaCalendario) >= 0 || results.rows.item(i).TipoVisita == "Diaria") {
+                  inserts++;
                 tx.executeSql('INSERT INTO controldiario VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
                   [ruta, fecha, operador, copiloto, vehiculo, hrSalida, " ", results.rows.item(i).TiendaSucursal," ", " ", " "]); 
-              } else {
-                triggerAlert = true;
               }
             }
-            if(triggerAlert == true) {
+            if(inserts == 0) {
               alert("La ruta seleccionada no recorre sucursales en la fecha escogida.");
+            } else {
+                location.reload();
             }
-          }, function(){
-                  
-                  location.reload();
-                  
-              });
+          });
         });
       return true;
     }
